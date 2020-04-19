@@ -64,12 +64,17 @@ class Model:
         except connector.Error as err:
             return err
     
+    """
     def update_pais(self, nombre):
         try:
-            fields = []
             vals = []
+            vals.append(nombre)
+            vals = tuple(vals)
+            try:
+                sql = 'UPDATE pais SET '+','.join()
         except connector.Error as err:
             return err
+    """
 
     """
     *****************
@@ -108,10 +113,20 @@ class Model:
             return err
     
     def update_generos(self, nombre, sub_gen):
+        fields = []
+        vals = []
+        if sub_gen != '':
+            vals.append(sub_gen)
+            fields.append('sub_gen = %s')
+        vals.append(nombre)
+        vals = tuple(vals) 
         try:
-            fields = []
-            vals = []
+            sql = 'UPDATE generos SET '+','.join(fields)+' WHERE nombre = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
         except connector.Error as err:
+            self.cnx.rollback()
             return err
 
     """
@@ -161,10 +176,21 @@ class Model:
             return err
     
     def update_alma_mater(self, nombre, id_pais):
+        fields = []
+        vals = []
+        if id_pais != '':
+            vals.append(id_pais)
+            fields.append('id_pais = %s')
+        vals.append(nombre)
+        vals = tuple(vals)
         try:
-            fields = []
-            vals = []
+            sql = 'UPDATE alma_mater SET ' + \
+                ','.join(fields)+' WHERE nombre = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
         except connector.Error as err:
+            self.cnx.rollback()
             return err
 
     """
@@ -234,10 +260,28 @@ class Model:
             return err
     
     def update_directores(self, nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin):
+        fields = []
+        vals = []
+        if id_alma_mater != '':
+            vals.append(id_alma_mater)
+            fields.append('id_alma_mater = %s')
+        if anio_act_in != '':
+            vals.append(anio_act_in)
+            fields.append('anio_act_in = %s')
+        if anio_act_fin != '':
+            vals.append(anio_act_fin)
+            fields.append('anio_act_fin = %s')
+        vals.append(nombre)
+        vals.append(apellido)
+        vals = tuple(vals)
         try:
-            fields = []
-            vals = []
+            sql = 'UPDATE directores SET ' + \
+                ','.join(fields)+' WHERE nombre = %s AND apellido = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
         except connector.Error as err:
+            self.cnx.rollback()
             return err
 
     """
@@ -307,10 +351,28 @@ class Model:
             return err
 
     def update_escritores(self, nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin):
+        fields = []
+        vals = []
+        if id_alma_mater != '':
+            vals.append(id_alma_mater)
+            fields.append('id_alma_mater = %s')
+        if anio_act_in != '':
+            vals.append(anio_act_in)
+            fields.append('anio_act_in = %s')
+        if anio_act_fin != '':
+            vals.append(anio_act_fin)
+            fields.append('anio_act_fin = %s')
+        vals.append(nombre)
+        vals.append(apellido)
+        vals = tuple(vals)
         try:
-            fields = []
-            vals = []
+            sql = 'UPDATE escritores SET ' + \
+                ','.join(fields)+' WHERE nombre = %s AND apellido = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
         except connector.Error as err:
+            self.cnx.rollback()
             return err
 
     """
@@ -380,10 +442,28 @@ class Model:
             return err
 
     def update_actores(self, nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin):
+        fields = []
+        vals = []
+        if id_alma_mater != '':
+            vals.append(id_alma_mater)
+            fields.append('id_alma_mater = %s')
+        if anio_act_in != '':
+            vals.append(anio_act_in)
+            fields.append('anio_act_in = %s')
+        if anio_act_fin != '':
+            vals.append(anio_act_fin)
+            fields.append('anio_act_fin = %s')
+        vals.append(nombre)
+        vals.append(apellido)
+        vals = tuple(vals)
         try:
-            fields = []
-            vals = []
+            sql = 'UPDATE actores SET ' + \
+                ','.join(fields)+' WHERE nombre = %s AND apellido = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
         except connector.Error as err:
+            self.cnx.rollback()
             return err
 
     """
@@ -413,6 +493,56 @@ class Model:
         except connector.Error as err:
             return err
 
+    def read_peliculas_id_genero(self, genero):
+        try:
+            sql = 'SELECT * FROM peliculas WHERE id_genero = %s'
+            vals = (genero,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def read_peliculas_id_director(self, director):
+        try:
+            sql = 'SELECT * FROM peliculas WHERE id_director = %s'
+            vals = (director,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+    
+    def read_peliculas_anio(self, anio):
+        try:
+            sql = 'SELECT * FROM peliculas WHERE anio = %s'
+            vals = (anio,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+    
+    def read_peliculas_id_pais(self, pais):
+        try:
+            sql = 'SELECT * FROM peliculas WHERE id_pais = %s'
+            vals = (pais,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def read_peliculas_calif(self, calif):
+        try:
+            sql = 'SELECT * FROM peliculas WHERE calif = %s'
+            vals = (calif,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
     def read_all_peliculas(self):
         try:
             sql = 'SELECT * FROM peliculas'
@@ -420,6 +550,36 @@ class Model:
             records = self.cursor.fetchall()
             return records
         except connector.Error as err:
+            return err
+
+    def update_peliculas(self, titulo, id_genero, id_director, anio, id_pais, calif):
+        fields = []
+        vals = []
+        if id_genero != '':
+            vals.append(id_genero)
+            fields.append('id_genero = %s')
+        if id_director != '':
+            vals.append(id_director)
+            fields.append('id_director = %s')
+        if anio != '':
+            vals.append(anio)
+            fields.append('anio = %s')
+        if id_pais != '':
+            vals.append(id_pais)
+            fields.append('id_pais = %s')
+        if calif != '':
+            vals.append(calif)
+            fields.append('calif = %s')
+        vals.append(titulo)
+        vals = tuple(vals)
+        try:
+            sql = 'UPDATE peliculas SET ' + \
+                ','.join(fields)+' WHERE titulo = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
             return err
 
     """
@@ -479,10 +639,22 @@ class Model:
             return err
 
     def update_carrera_escritores(self, id_escritor, id_pelicula, remuneracion):
+        fields = []
+        vals = []
+        if remuneracion != '':
+            vals.append(remuneracion)
+            fields.append('remuneracion = %s')
+        vals.append(id_escritor)
+        vals.append(id_pelicula)
+        vals = tuple(vals)
         try:
-            fields = []
-            vals = []
+            sql = 'UPDATE carrera_escritores SET ' + \
+                ','.join(fields)+' WHERE id_escritor = %s AND id_pelicula = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
         except connector.Error as err:
+            self.cnx.rollback()
             return err
 
     """
@@ -543,8 +715,20 @@ class Model:
             return err
 
     def update_carrera_actores(self, id_actor, id_pelicula, remuneracion):
+        fields = []
+        vals = []
+        if remuneracion != '':
+            vals.append(remuneracion)
+            fields.append('remuneracion = %s')
+        vals.append(id_actor)
+        vals.append(id_pelicula)
+        vals = tuple(vals)
         try:
-            fields = []
-            vals = []
+            sql = 'UPDATE carrera_actores SET ' + \
+                ','.join(fields)+' WHERE id_escritor = %s AND id_pelicula = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
         except connector.Error as err:
+            self.cnx.rollback()
             return err
