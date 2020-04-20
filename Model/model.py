@@ -64,17 +64,16 @@ class Model:
         except connector.Error as err:
             return err
     
-    """
-    def update_pais(self, nombre):
+    def delete_pais(self, nombre):
         try:
-            vals = []
-            vals.append(nombre)
-            vals = tuple(vals)
-            try:
-                sql = 'UPDATE pais SET '+','.join()
+            sql = 'DELETE FROM pais WHERE nombre = %s'
+            vals = (nombre,)
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
         except connector.Error as err:
+            self.cnx.rollback()
             return err
-    """
 
     """
     *****************
@@ -122,6 +121,17 @@ class Model:
         vals = tuple(vals) 
         try:
             sql = 'UPDATE generos SET '+','.join(fields)+' WHERE nombre = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
+            return err
+
+    def delete_generos(self, nombre):
+        try:
+            sql = 'DELETE FROM generos WHERE nombre = %s'
+            vals = (nombre,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -186,6 +196,17 @@ class Model:
         try:
             sql = 'UPDATE alma_mater SET ' + \
                 ','.join(fields)+' WHERE nombre = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
+            return err
+
+    def delete_alma_mater(self, nombre):
+        try:
+            sql = 'DELETE FROM alma_mater WHERE nombre = %s'
+            vals = (nombre,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -284,6 +305,17 @@ class Model:
             self.cnx.rollback()
             return err
 
+    def delete_directores(self, nombre, apellido):
+        try:
+            sql = 'DELETE FROM directores WHERE nombre = %s AND apellido = %s'
+            vals = (nombre, apellido)
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
+            return err
+
     """
     ********************
     * Writers methods *
@@ -375,6 +407,17 @@ class Model:
             self.cnx.rollback()
             return err
 
+    def delete_escritores(self, nombre, apellido):
+        try:
+            sql = 'DELETE FROM escritores WHERE nombre = %s AND apellido = %s'
+            vals = (nombre, apellido)
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
+            return err
+
     """
     ******************
     * Actors methods *
@@ -459,6 +502,17 @@ class Model:
         try:
             sql = 'UPDATE actores SET ' + \
                 ','.join(fields)+' WHERE nombre = %s AND apellido = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
+            return err
+
+    def delete_actores(self, nombre, apellido):
+        try:
+            sql = 'DELETE FROM actores WHERE nombre = %s AND apellido = %s'
+            vals = (nombre, apellido)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -582,6 +636,17 @@ class Model:
             self.cnx.rollback()
             return err
 
+    def delete_peliculas(self, titulo):
+        try:
+            sql = 'DELETE FROM peliculas WHERE titulo = %s'
+            vals = (titulo,)
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
+            return err
+
     """
     **************************
     * Writers career methods *
@@ -650,6 +715,17 @@ class Model:
         try:
             sql = 'UPDATE carrera_escritores SET ' + \
                 ','.join(fields)+' WHERE id_escritor = %s AND id_pelicula = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
+            return err
+
+    def delete_carrera_escritores(self, id_escritor, id_pelicula):
+        try:
+            sql = 'DELETE FROM carrera_escritores WHERE id_escritor = %s AND id_pelicula = %s'
+            vals = (id_escritor, id_pelicula)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -726,6 +802,17 @@ class Model:
         try:
             sql = 'UPDATE carrera_actores SET ' + \
                 ','.join(fields)+' WHERE id_escritor = %s AND id_pelicula = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
+            return err
+
+    def delete_carrera_actores(self, id_actor, id_pelicula):
+        try:
+            sql = 'DELETE FROM carrera_actores WHERE id_actor = %s AND id_pelicula = %s'
+            vals = (id_actor, id_pelicula)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
