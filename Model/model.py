@@ -102,7 +102,7 @@ class Model:
         except connector.Error as err:
             return err
 
-    def read_all_generos(self):
+    def read_all_genero(self):
         try:
             sql = 'SELECT * FROM genero'
             self.cursor.execute(sql)
@@ -110,8 +110,18 @@ class Model:
             return records
         except connector.Error as err:
             return err
+
+    def read_genero_sub_gen(self, sub_gen):
+        try:
+            sql = 'SELECT * FROM genero WHERE sub_gen = %s'
+            vals = (sub_gen,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
     
-    def update_generos(self, nombre, sub_gen):
+    def update_genero(self, nombre, sub_gen):
         fields = []
         vals = []
         if sub_gen != '':
@@ -120,7 +130,7 @@ class Model:
         vals.append(nombre)
         vals = tuple(vals) 
         try:
-            sql = 'UPDATE generos SET '+','.join(fields)+' WHERE nombre = %s'
+            sql = 'UPDATE genero SET '+','.join(fields)+' WHERE nombre = %s'
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -128,9 +138,9 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def delete_generos(self, nombre):
+    def delete_genero(self, nombre):
         try:
-            sql = 'DELETE FROM generos WHERE nombre = %s'
+            sql = 'DELETE FROM genero WHERE nombre = %s'
             vals = (nombre,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
