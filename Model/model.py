@@ -45,13 +45,23 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def read_a_pais(self, pais):
+    def read_a_pais(self, id_pais):
         try:
-            sql = 'SELECT * FROM pais WHERE nombre = %s'
-            vals = (pais,)
+            sql = 'SELECT * FROM pais WHERE id_pais = %s'
+            vals = (id_pais,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
             return record
+        except connector.Error as err:
+            return err
+
+    def read_pais_nombre(self, nombre):
+        try:
+            sql = 'SELECT * FROM pais WHERE nombre = %s'
+            vals = (nombre,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
         except connector.Error as err:
             return err
 
@@ -64,10 +74,10 @@ class Model:
         except connector.Error as err:
             return err
     
-    def delete_pais(self, nombre):
+    def delete_pais(self, id_pais):
         try:
-            sql = 'DELETE FROM pais WHERE nombre = %s'
-            vals = (nombre,)
+            sql = 'DELETE FROM pais WHERE id_pais = %s'
+            vals = (id_pais,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -92,10 +102,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def read_a_genero(self, genero):
+    def read_a_genero(self, id_genero):
         try:
-            sql = 'SELECT * FROM genero WHERE nombre = %s'
-            vals = (genero,)
+            sql = 'SELECT * FROM genero WHERE id_genero = %s'
+            vals = (id_genero,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
             return record
@@ -120,15 +130,18 @@ class Model:
             return records
         except connector.Error as err:
             return err
+
+    def read_genero_nombre(self, nombre):
+        try:
+            sql = 'SELECT * FROM genero WHERE nombre = %s'
+            vals = (nombre,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
     
-    def update_genero(self, nombre, sub_gen):
-        fields = []
-        vals = []
-        if sub_gen != '':
-            vals.append(sub_gen)
-            fields.append('sub_gen = %s')
-        vals.append(nombre)
-        vals = tuple(vals) 
+    def update_genero(self, fields, vals):
         try:
             sql = 'UPDATE genero SET '+','.join(fields)+' WHERE nombre = %s'
             self.cursor.execute(sql, vals)
@@ -138,10 +151,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def delete_genero(self, nombre):
+    def delete_genero(self, id_genero):
         try:
-            sql = 'DELETE FROM genero WHERE nombre = %s'
-            vals = (nombre,)
+            sql = 'DELETE FROM genero WHERE id_genero = %s'
+            vals = (id_genero,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -166,10 +179,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def read_an_alma_mater(self, alma_mater):
+    def read_an_alma_mater(self, id_alma_mater):
         try:
-            sql = 'SELECT * FROM alma_mater WHERE nombre = %s'
-            vals = (alma_mater,)
+            sql = 'SELECT * FROM alma_mater WHERE id_alma_mater = %s'
+            vals = (id_alma_mater,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
             return record
@@ -194,15 +207,18 @@ class Model:
             return records
         except connector.Error as err:
             return err
+
+    def read_alma_mater_nombre(self, nombre):
+        try:
+            sql = 'SELECT * FROM alma_mater WHERE nombre = %s'
+            vals = (nombre,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
     
-    def update_alma_mater(self, nombre, id_pais):
-        fields = []
-        vals = []
-        if id_pais != '':
-            vals.append(id_pais)
-            fields.append('id_pais = %s')
-        vals.append(nombre)
-        vals = tuple(vals)
+    def update_alma_mater(self, fields, vals):
         try:
             sql = 'UPDATE alma_mater SET ' + \
                 ','.join(fields)+' WHERE nombre = %s'
@@ -213,10 +229,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def delete_alma_mater(self, nombre):
+    def delete_alma_mater(self, id_alma_mater):
         try:
-            sql = 'DELETE FROM alma_mater WHERE nombre = %s'
-            vals = (nombre,)
+            sql = 'DELETE FROM alma_mater WHERE id_alma_mater = %s'
+            vals = (id_alma_mater,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -241,10 +257,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def read_a_directores(self, directores_nombre, directores_apellido):
+    def read_a_directores(self, id_director):
         try:
-            sql = 'SELECT * FROM directores WHERE nombre = %s AND apellido = %s'
-            vals = (directores_nombre, directores_apellido)
+            sql = 'SELECT * FROM directores WHERE id_director = %s'
+            vals = (id_director,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
             return record
@@ -255,6 +271,26 @@ class Model:
         try:
             sql = 'SELECT * FROM directores'
             self.cursor.execute(sql)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def read_directores_nombre(self, nombre):
+        try:
+            sql = 'SELECT * FROM directores WHERE nombre = %s'
+            vals = (nombre,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def read_directores_apellido(self, apellido):
+        try:
+            sql = 'SELECT * FROM directores WHERE apellido = %s'
+            vals = (apellido,)
+            self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
             return records
         except connector.Error as err:
@@ -289,22 +325,18 @@ class Model:
             return records
         except connector.Error as err:
             return err
+
+    def read_directores_anio_act_range(self, anio_ini, anio_end):
+        try:
+            sql = 'SELECT * FROM directores WHERE anio_act_in >= %s AND anio_act_fin <= %s'
+            vals = (anio_ini, anio_end)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
     
-    def update_directores(self, nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin):
-        fields = []
-        vals = []
-        if id_alma_mater != '':
-            vals.append(id_alma_mater)
-            fields.append('id_alma_mater = %s')
-        if anio_act_in != '':
-            vals.append(anio_act_in)
-            fields.append('anio_act_in = %s')
-        if anio_act_fin != '':
-            vals.append(anio_act_fin)
-            fields.append('anio_act_fin = %s')
-        vals.append(nombre)
-        vals.append(apellido)
-        vals = tuple(vals)
+    def update_directores(self, fields, vals):
         try:
             sql = 'UPDATE directores SET ' + \
                 ','.join(fields)+' WHERE nombre = %s AND apellido = %s'
@@ -315,10 +347,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def delete_directores(self, nombre, apellido):
+    def delete_directores(self, id_director):
         try:
-            sql = 'DELETE FROM directores WHERE nombre = %s AND apellido = %s'
-            vals = (nombre, apellido)
+            sql = 'DELETE FROM directores WHERE id_director = %s'
+            vals = (id_director,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -343,10 +375,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def read_a_escritores(self, escritores_nombre, escritores_apellido):
+    def read_a_escritores(self, id_escritor):
         try:
-            sql = 'SELECT * FROM escritores WHERE nombre = %s AND apellido = %s'
-            vals = (escritores_nombre, escritores_apellido)
+            sql = 'SELECT * FROM escritores WHERE id_escritor = %s'
+            vals = (id_escritor, )
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
             return record
@@ -357,6 +389,26 @@ class Model:
         try:
             sql = 'SELECT * FROM escritores'
             self.cursor.execute(sql)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def read_escritores_nombre(self, nombre):
+        try:
+            sql = 'SELECT * FROM escritores WHERE nombre = %s'
+            vals = (nombre,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def read_escritores_apellido(self, apellido):
+        try:
+            sql = 'SELECT * FROM escritores WHERE apellido = %s'
+            vals = (apellido,)
+            self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
             return records
         except connector.Error as err:
@@ -392,21 +444,17 @@ class Model:
         except connector.Error as err:
             return err
 
-    def update_escritores(self, nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin):
-        fields = []
-        vals = []
-        if id_alma_mater != '':
-            vals.append(id_alma_mater)
-            fields.append('id_alma_mater = %s')
-        if anio_act_in != '':
-            vals.append(anio_act_in)
-            fields.append('anio_act_in = %s')
-        if anio_act_fin != '':
-            vals.append(anio_act_fin)
-            fields.append('anio_act_fin = %s')
-        vals.append(nombre)
-        vals.append(apellido)
-        vals = tuple(vals)
+    def read_escritores_anio_act_range(self, anio_ini, anio_end):
+        try:
+            sql = 'SELECT * FROM escritores WHERE anio_act_in >= %s AND anio_act_fin <= %s'
+            vals = (anio_ini, anio_end)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def update_escritores(self, fields, vals):
         try:
             sql = 'UPDATE escritores SET ' + \
                 ','.join(fields)+' WHERE nombre = %s AND apellido = %s'
@@ -417,10 +465,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def delete_escritores(self, nombre, apellido):
+    def delete_escritores(self, id_escritor):
         try:
-            sql = 'DELETE FROM escritores WHERE nombre = %s AND apellido = %s'
-            vals = (nombre, apellido)
+            sql = 'DELETE FROM escritores WHERE id_escritor = %s'
+            vals = (id_escritor, )
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -445,10 +493,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def read_a_actores(self, actores_nombre, actores_apellido):
+    def read_a_actores(self, id_actor):
         try:
-            sql = 'SELECT * FROM actores WHERE nombre = %s AND apellido = %s'
-            vals = (actores_nombre, actores_apellido)
+            sql = 'SELECT * FROM actores WHERE id_actor = %s'
+            vals = (id_actor, )
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
             return record
@@ -459,6 +507,26 @@ class Model:
         try:
             sql = 'SELECT * FROM actores'
             self.cursor.execute(sql)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def read_actores_nombre(self, nombre):
+        try:
+            sql = 'SELECT * FROM actores WHERE nombre = %s'
+            vals = (nombre,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def read_actores_apellido(self, apellido):
+        try:
+            sql = 'SELECT * FROM actores WHERE apellido = %s'
+            vals = (apellido,)
+            self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
             return records
         except connector.Error as err:
@@ -494,21 +562,17 @@ class Model:
         except connector.Error as err:
             return err
 
-    def update_actores(self, nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin):
-        fields = []
-        vals = []
-        if id_alma_mater != '':
-            vals.append(id_alma_mater)
-            fields.append('id_alma_mater = %s')
-        if anio_act_in != '':
-            vals.append(anio_act_in)
-            fields.append('anio_act_in = %s')
-        if anio_act_fin != '':
-            vals.append(anio_act_fin)
-            fields.append('anio_act_fin = %s')
-        vals.append(nombre)
-        vals.append(apellido)
-        vals = tuple(vals)
+    def read_actores_anio_act_range(self, anio_ini, anio_end):
+        try:
+            sql = 'SELECT * FROM actores WHERE anio_act_in >= %s AND anio_act_fin <= %s'
+            vals = (anio_ini, anio_end)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def update_actores(self, fields, vals):
         try:
             sql = 'UPDATE actores SET ' + \
                 ','.join(fields)+' WHERE nombre = %s AND apellido = %s'
@@ -519,10 +583,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def delete_actores(self, nombre, apellido):
+    def delete_actores(self, id_actor):
         try:
-            sql = 'DELETE FROM actores WHERE nombre = %s AND apellido = %s'
-            vals = (nombre, apellido)
+            sql = 'DELETE FROM actores WHERE id_actor = %s'
+            vals = (id_actor, )
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -547,10 +611,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def read_a_peliculas(self, titulo):
+    def read_a_peliculas(self, id_pelicula):
         try:
-            sql = 'SELECT * FROM peliculas WHERE titulo = %s'
-            vals = (titulo)
+            sql = 'SELECT * FROM peliculas WHERE id_pelicula = %s'
+            vals = (id_pelicula,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
             return record
@@ -561,6 +625,16 @@ class Model:
         try:
             sql = 'SELECT * FROM peliculas WHERE id_genero = %s'
             vals = (genero,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def read_peliculas_titulo(self, titulo):
+        try:
+            sql = 'SELECT * FROM peliculas WHERE titulo = %s'
+            vals = (titulo,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
             return records
@@ -581,6 +655,16 @@ class Model:
         try:
             sql = 'SELECT * FROM peliculas WHERE anio = %s'
             vals = (anio,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def read_peliculas_anio_range(self, anio_ini, anio_end):
+        try:
+            sql = 'SELECT * FROM actores WHERE anio >= %s AND anio <= %s'
+            vals = (anio_ini, anio_end)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
             return records
@@ -616,26 +700,7 @@ class Model:
         except connector.Error as err:
             return err
 
-    def update_peliculas(self, titulo, id_genero, id_director, anio, id_pais, calif):
-        fields = []
-        vals = []
-        if id_genero != '':
-            vals.append(id_genero)
-            fields.append('id_genero = %s')
-        if id_director != '':
-            vals.append(id_director)
-            fields.append('id_director = %s')
-        if anio != '':
-            vals.append(anio)
-            fields.append('anio = %s')
-        if id_pais != '':
-            vals.append(id_pais)
-            fields.append('id_pais = %s')
-        if calif != '':
-            vals.append(calif)
-            fields.append('calif = %s')
-        vals.append(titulo)
-        vals = tuple(vals)
+    def update_peliculas(self, fields, vals):
         try:
             sql = 'UPDATE peliculas SET ' + \
                 ','.join(fields)+' WHERE titulo = %s'
@@ -646,10 +711,10 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def delete_peliculas(self, titulo):
+    def delete_peliculas(self, id_pelicula):
         try:
-            sql = 'DELETE FROM peliculas WHERE titulo = %s'
-            vals = (titulo,)
+            sql = 'DELETE FROM peliculas WHERE id_pelicula = %s'
+            vals = (id_pelicula,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -713,15 +778,17 @@ class Model:
         except connector.Error as err:
             return err
 
-    def update_carrera_escritores(self, id_escritor, id_pelicula, remuneracion):
-        fields = []
-        vals = []
-        if remuneracion != '':
-            vals.append(remuneracion)
-            fields.append('remuneracion = %s')
-        vals.append(id_escritor)
-        vals.append(id_pelicula)
-        vals = tuple(vals)
+    def read_carrera_escritores_remuneracion_range(self, rem_ini, rem_end):
+        try:
+            sql = 'SELECT * FROM carrera_escritores WHERE remuneracion >= %s AND remuneracion <= %s'
+            vals = (rem_ini, rem_end)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def update_carrera_escritores(self, fields, vals):
         try:
             sql = 'UPDATE carrera_escritores SET ' + \
                 ','.join(fields)+' WHERE id_escritor = %s AND id_pelicula = %s'
@@ -800,15 +867,17 @@ class Model:
         except connector.Error as err:
             return err
 
-    def update_carrera_actores(self, id_actor, id_pelicula, remuneracion):
-        fields = []
-        vals = []
-        if remuneracion != '':
-            vals.append(remuneracion)
-            fields.append('remuneracion = %s')
-        vals.append(id_actor)
-        vals.append(id_pelicula)
-        vals = tuple(vals)
+    def read_carrera_actores_remuneracion_range(self, rem_ini, rem_end):
+        try:
+            sql = 'SELECT * FROM carrera_actores WHERE remuneracion >= %s AND remuneracion <= %s'
+            vals = (rem_ini, rem_end)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
+    def update_carrera_actores(self, fields, vals):
         try:
             sql = 'UPDATE carrera_actores SET ' + \
                 ','.join(fields)+' WHERE id_escritor = %s AND id_pelicula = %s'
