@@ -170,7 +170,7 @@ class Model:
 
     def create_alma_mater(self, nombre, id_pais):
         try:
-            sql = 'INSERT INTO  genero (`nombre`, `id_pais`) VALUES(%s, %s)'
+            sql = 'INSERT INTO  alma_mater (`nombre`, `id_pais`) VALUES(%s, %s)'
             vals = (nombre, id_pais)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
