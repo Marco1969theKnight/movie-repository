@@ -65,7 +65,7 @@ class Model:
         except connector.Error as err:
             return err
 
-    def read_all_pais(self):
+    def read_all_pais(self):    # Caution if large ammount of data
         try:
             sql = 'SELECT * FROM pais'
             self.cursor.execute(sql)
@@ -112,7 +112,7 @@ class Model:
         except connector.Error as err:
             return err
 
-    def read_all_genero(self):
+    def read_all_genero(self):    # Caution if large ammount of data
         try:
             sql = 'SELECT * FROM genero'
             self.cursor.execute(sql)
@@ -189,7 +189,7 @@ class Model:
         except connector.Error as err:
             return err
 
-    def read_all_alma_mater(self):
+    def read_all_alma_mater(self):    # Caution if large ammount of data
         try:
             sql = 'SELECT * FROM alma_mater'
             self.cursor.execute(sql)
@@ -267,7 +267,7 @@ class Model:
         except connector.Error as err:
             return err
 
-    def read_all_directores(self):
+    def read_all_directores(self):    # Caution if large ammount of data
         try:
             sql = 'SELECT * FROM directores'
             self.cursor.execute(sql)
@@ -385,7 +385,7 @@ class Model:
         except connector.Error as err:
             return err
 
-    def read_all_escritores(self):
+    def read_all_escritores(self):    # Caution if large ammount of data
         try:
             sql = 'SELECT * FROM escritores'
             self.cursor.execute(sql)
@@ -503,7 +503,7 @@ class Model:
         except connector.Error as err:
             return err
 
-    def read_all_actores(self):
+    def read_all_actores(self):    # Caution if large ammount of data
         try:
             sql = 'SELECT * FROM actores'
             self.cursor.execute(sql)
@@ -691,7 +691,7 @@ class Model:
         except connector.Error as err:
             return err
 
-    def read_all_peliculas(self):
+    def read_all_peliculas(self):    # Caution if large ammount of data
         try:
             sql = 'SELECT * FROM peliculas'
             self.cursor.execute(sql)
@@ -749,7 +749,7 @@ class Model:
         except connector.Error as err:
             return err
 
-    def read_all_carrera_escritores(self):
+    def read_all_carrera_escritores(self):    # Caution if large ammount of data
         try:
             sql = 'SELECT * FROM carrera_escritores'
             self.cursor.execute(sql)
@@ -837,7 +837,7 @@ class Model:
         except connector.Error as err:
             return err
 
-    def read_all_carrera_actores(self):
+    def read_all_carrera_actores(self):    # Caution if large ammount of data
         try:
             sql = 'SELECT * FROM carrera_actores'
             self.cursor.execute(sql)
