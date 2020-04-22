@@ -12,13 +12,11 @@ m.create_alma_mater('Hampshire College', 1)
 m.create_alma_mater('California State University', 1)
 m.create_alma_mater('Universidad Autonoma de Mexico', 2)
 m.create_alma_mater('Centro Form Teatral San Cayetano', 2)
-"""
 
-#m.create_directores('Ryan', 'Coogler', 4, 2009, 2020)
-m.create_directores('Charles', 'Chaplin', None, 1899, 1976)
-#m.create_directores('Alfonso', 'Cuaron', 5, 1981, 2020)
+m.create_directores('Ryan', 'Coogler', 4, 2009, 2020)
+m.create_directores('Charles', 'Chaplin', None, 1901, 1976)
+m.create_directores('Alfonso', 'Cuaron', 5, 1981, 2020)
 
-"""
 m.create_genero('Accion', 'Super Heroes')
 m.create_genero('Aventura', 'Exploracion')
 m.create_genero('Experimental', 'Indie')
@@ -44,12 +42,21 @@ data = m.read_all_genero()
 print(data)
 """
 
-data = m.read_all_genero()
-print(data)
+#data = m.read_all_genero()
+#print(data)
 
 #m.delete_genero(43)
 
+data = m.read_all_pais()
+print(data)
+
 data = m.read_all_genero()
+print(data)
+
+data = m.read_all_alma_mater()
+print(data)
+
+data = m.read_all_directores()
 print(data)
 
 university = m.read_an_alma_mater(4)
