@@ -810,6 +810,17 @@ class Model:
             self.cnx.rollback()
             return err
 
+    def delete_carrera_escritores_escritor(self, id_escritor):
+        try:
+            sql = 'DELETE FROM carrera_escritores WHERE id_escritor = %s'
+            vals = (id_escritor, )
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
+            return err
+
     """
     *************************
     * Actors career methods *
@@ -818,7 +829,7 @@ class Model:
 
     def create_carrera_actores(self, id_actor, id_pelicula, remuneracion):
         try:
-            sql = 'INSERT INTO  carrera_escritores (`id_actor`, `id_pelicula`, `remuneracion`) VALUES(%s, %s, %s)'
+            sql = 'INSERT INTO  carrera_actores (`id_actor`, `id_pelicula`, `remuneracion`) VALUES(%s, %s, %s)'
             vals = (id_actor, id_pelicula, remuneracion)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
@@ -892,6 +903,17 @@ class Model:
         try:
             sql = 'DELETE FROM carrera_actores WHERE id_actor = %s AND id_pelicula = %s'
             vals = (id_actor, id_pelicula)
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
+            return err
+    
+    def delete_carrera_actores_actor(self, id_actor):
+        try:
+            sql = 'DELETE FROM carrera_actores WHERE id_actor = %s'
+            vals = (id_actor, )
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
