@@ -80,7 +80,8 @@ class Model:
             vals = (id_pais,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            count = self.cursor.rowcount
+            return count
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -157,7 +158,8 @@ class Model:
             vals = (id_genero,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            count = self.cursor.rowcount
+            return count
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -235,7 +237,8 @@ class Model:
             vals = (id_alma_mater,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            count = self.cursor.rowcount
+            return count
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -353,7 +356,8 @@ class Model:
             vals = (id_director,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            count = self.cursor.rowcount
+            return count
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -471,7 +475,8 @@ class Model:
             vals = (id_escritor, )
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            count = self.cursor.rowcount
+            return count
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -589,7 +594,8 @@ class Model:
             vals = (id_actor, )
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            count = self.cursor.rowcount
+            return count
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -717,7 +723,8 @@ class Model:
             vals = (id_pelicula,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            count = self.cursor.rowcount
+            return count
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -805,7 +812,8 @@ class Model:
             vals = (id_escritor, id_pelicula)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            count = self.cursor.rowcount
+            return count
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -905,7 +913,8 @@ class Model:
             vals = (id_actor, id_pelicula)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            count = self.cursor.rowcount
+            return count
         except connector.Error as err:
             self.cnx.rollback()
             return err

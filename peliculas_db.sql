@@ -19,13 +19,13 @@ create table if not exists genero(
 create table if not exists alma_mater(
 	id_alma_mater int not null auto_increment,
     nombre varchar(40) not null,
-    id_pais int,
+    id_pais int not null,
     
     primary key(id_alma_mater),
     
     constraint fk_id_pais foreign key(id_pais)
 		references pais(id_pais)
-        on delete set null
+        on delete cascade
         on update cascade
 ) engine=INNODB;
 
@@ -81,8 +81,8 @@ create table if not exists actores(
 create table if not exists peliculas(
 	id_pelicula int not null auto_increment,
     titulo varchar(40) not null,
-    id_genero int,
-    id_director int,
+    id_genero int not null,
+    id_director int not null,
     anio year not null,
     id_pais int,
     calif int not null,
@@ -91,12 +91,12 @@ create table if not exists peliculas(
     
     constraint fk_id_genero foreign key(id_genero)
 		references genero(id_genero)
-        on delete set null
+        on delete cascade
         on update cascade,
         
 	constraint fk_id_director foreign key(id_director)
 		references directores(id_director)
-        on delete set null
+        on delete cascade
         on update cascade,
         
 	constraint fk_id_pais_peliculas foreign key(id_pais)
