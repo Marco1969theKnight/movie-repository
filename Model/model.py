@@ -40,7 +40,8 @@ class Model:
             vals = (nombre,)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            id_pais = self.cursor.lastrowid
+            return id_pais
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -98,7 +99,8 @@ class Model:
             vals = (nombre, sub_gen)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            id_genero = self.cursor.lastrowid
+            return id_genero
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -176,14 +178,15 @@ class Model:
             vals = (nombre, id_pais)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            id_alma_mater = self.cursor.lastrowid
+            return id_alma_mater
         except connector.Error as err:
             self.cnx.rollback()
             return err
 
     def read_an_alma_mater(self, id_alma_mater):
         try:
-            sql = 'SELECT * FROM alma_mater WHERE id_alma_mater = %s'
+            sql = 'SELECT alma_mater.id_alma_mater, alma_mater.nombre, pais.nombre FROM alma_mater JOIN pais ON alma_mater.id_pais = pais.id_pais AND alma_mater.id_alma_mater = %s'
             vals = (id_alma_mater,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
@@ -193,7 +196,7 @@ class Model:
 
     def read_all_alma_mater(self):    # Caution if large ammount of data
         try:
-            sql = 'SELECT * FROM alma_mater'
+            sql = 'SELECT alma_mater.id_alma_mater, alma_mater.nombre, pais.nombre FROM alma_mater JOIN pais ON alma_mater.id_pais = pais.id_pais'
             self.cursor.execute(sql)
             records = self.cursor.fetchall()
             return records
@@ -202,7 +205,7 @@ class Model:
 
     def read_alma_mater_pais(self, pais):
         try:
-            sql = 'SELECT * FROM alma_mater WHERE id_pais = %s'
+            sql = 'SELECT alma_mater.id_alma_mater, alma_mater.nombre, pais.nombre FROM alma_mater JOIN pais ON alma_mater.id_pais = pais.id_pais AND alma_mater.id_pais = %s'
             vals = (pais,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -212,7 +215,7 @@ class Model:
 
     def read_alma_mater_nombre(self, nombre):
         try:
-            sql = 'SELECT * FROM alma_mater WHERE nombre = %s'
+            sql = 'SELECT alma_mater.id_alma_mater, alma_mater.nombre, pais.nombre FROM alma_mater JOIN pais ON alma_mater.id_pais = pais.id_pais AND alma_mater.nombre = %s'
             vals = (nombre,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -255,24 +258,27 @@ class Model:
             vals = (nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            id_director = self.cursor.lastrowid
+            return id_director
         except connector.Error as err:
             self.cnx.rollback()
             return err
 
     def read_a_directores(self, id_director):
         try:
-            sql = 'SELECT * FROM directores WHERE id_director = %s'
+            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.id_director = %s'
+            sql = 'Select * FROM directores WHERE id_director = %s'
             vals = (id_director,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
+            #self.cursor = self.cnx.cursor(buffered=False)
             return record
         except connector.Error as err:
             return err
 
     def read_all_directores(self):    # Caution if large ammount of data
         try:
-            sql = 'SELECT * FROM directores'
+            sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater'
             self.cursor.execute(sql)
             records = self.cursor.fetchall()
             return records
@@ -281,6 +287,7 @@ class Model:
 
     def read_directores_nombre(self, nombre):
         try:
+            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.nombre = %s'
             sql = 'SELECT * FROM directores WHERE nombre = %s'
             vals = (nombre,)
             self.cursor.execute(sql, vals)
@@ -291,6 +298,7 @@ class Model:
 
     def read_directores_apellido(self, apellido):
         try:
+            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.apellido = %s'
             sql = 'SELECT * FROM directores WHERE apellido = %s'
             vals = (apellido,)
             self.cursor.execute(sql, vals)
@@ -301,6 +309,7 @@ class Model:
 
     def read_directores_alma_mater(self, alma_mater):
         try:
+            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.id_alma_mater = %s'
             sql = 'SELECT * FROM directores WHERE id_alma_mater = %s'
             vals = (alma_mater,)
             self.cursor.execute(sql, vals)
@@ -311,6 +320,7 @@ class Model:
 
     def read_directores_anio_act_in(self, anio_act_in):
         try:
+            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.anio_act_in = %s'
             sql = 'SELECT * FROM directores WHERE anio_act_in = %s'
             vals = (anio_act_in,)
             self.cursor.execute(sql, vals)
@@ -321,6 +331,7 @@ class Model:
 
     def read_directores_anio_act_fin(self, anio_act_fin):
         try:
+            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.anio_act_fin = %s'
             sql = 'SELECT * FROM directores WHERE anio_act_fin = %s'
             vals = (anio_act_fin,)
             self.cursor.execute(sql, vals)
@@ -331,6 +342,7 @@ class Model:
 
     def read_directores_anio_act_range(self, anio_ini, anio_end):
         try:
+            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.anio_act_in >= %s AND directores.anio_act_fin <= %s'
             sql = 'SELECT * FROM directores WHERE anio_act_in >= %s AND anio_act_fin <= %s'
             vals = (anio_ini, anio_end)
             self.cursor.execute(sql, vals)
@@ -374,7 +386,8 @@ class Model:
             vals = (nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            id_escritor = self.cursor.lastrowid
+            return id_escritor
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -493,7 +506,8 @@ class Model:
             vals = (nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            id_actor = self.cursor.lastrowid
+            return id_actor
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -612,7 +626,8 @@ class Model:
             vals = (titulo, id_genero, id_director, anio, id_pais, calif)
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            id_pelicula = self.cursor.lastrowid
+            return id_pelicula
         except connector.Error as err:
             self.cnx.rollback()
             return err
