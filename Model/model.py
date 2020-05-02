@@ -266,87 +266,112 @@ class Model:
 
     def read_a_directores(self, id_director):
         try:
+            sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.id_director = %s'
             #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.id_director = %s'
-            sql = 'Select * FROM directores WHERE id_director = %s'
+            # El LEFT JOIN tiene comportamiento extranio, revisar para despues
             vals = (id_director,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
-            #self.cursor = self.cnx.cursor(buffered=False)
+            if record == None:
+                sql = 'SELECT * FROM directores WHERE id_director = %s'
+                self.cursor.execute(sql, vals)
+                record = self.cursor.fetchone()
             return record
         except connector.Error as err:
             return err
 
     def read_all_directores(self):    # Caution if large ammount of data
         try:
-            sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater'
+            sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater'
             self.cursor.execute(sql)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM directores WHERE id_alma_mater IS NULL'
+            self.cursor.execute(sql)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_directores_nombre(self, nombre):
         try:
-            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.nombre = %s'
-            sql = 'SELECT * FROM directores WHERE nombre = %s'
+            sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.nombre = %s'
             vals = (nombre,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM directores WHERE id_alma_mater IS NULL AND nombre = %s'
+            vals = (nombre,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_directores_apellido(self, apellido):
         try:
-            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.apellido = %s'
-            sql = 'SELECT * FROM directores WHERE apellido = %s'
+            sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.apellido = %s'
             vals = (apellido,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM directores WHERE id_alma_mater IS NULL AND apellido = %s'
+            vals = (apellido,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_directores_alma_mater(self, alma_mater):
         try:
-            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.id_alma_mater = %s'
-            sql = 'SELECT * FROM directores WHERE id_alma_mater = %s'
+            sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.id_alma_mater = %s'
             vals = (alma_mater,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            if alma_mater == None:
+                sql = 'SELECT * FROM directores WHERE id_alma_mater IS NULL'
+                self.cursor.execute(sql)
+                records = self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_directores_anio_act_in(self, anio_act_in):
         try:
-            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.anio_act_in = %s'
-            sql = 'SELECT * FROM directores WHERE anio_act_in = %s'
+            sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.anio_act_in = %s'
             vals = (anio_act_in,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM directores WHERE id_alma_mater IS NULL AND anio_act_in = %s'
+            vals = (anio_act_in,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_directores_anio_act_fin(self, anio_act_fin):
         try:
-            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.anio_act_fin = %s'
-            sql = 'SELECT * FROM directores WHERE anio_act_fin = %s'
+            sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.anio_act_fin = %s'
             vals = (anio_act_fin,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM directores WHERE id_alma_mater IS NULL AND anio_act_fin = %s'
+            vals = (anio_act_fin,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_directores_anio_act_range(self, anio_ini, anio_end):
         try:
-            #sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores LEFT JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.anio_act_in >= %s AND directores.anio_act_fin <= %s'
-            sql = 'SELECT * FROM directores WHERE anio_act_in >= %s AND anio_act_fin <= %s'
+            sql = 'SELECT directores.id_director, directores.nombre, directores.apellido, alma_mater.nombre, directores.anio_act_in, directores.anio_act_fin FROM directores JOIN alma_mater ON directores.id_alma_mater = alma_mater.id_alma_mater AND directores.anio_act_in >= %s AND directores.anio_act_fin <= %s'
             vals = (anio_ini, anio_end)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM directores WHERE id_alma_mater IS NULL AND anio_act_in >= %s AND anio_act_fin <= %s'
+            vals = (anio_ini, anio_end)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
@@ -394,79 +419,118 @@ class Model:
 
     def read_a_escritores(self, id_escritor):
         try:
-            sql = 'SELECT * FROM escritores WHERE id_escritor = %s'
+            sql = 'SELECT escritores.id_escritor, escritores.nombre, escritores.apellido, alma_mater.nombre, escritores.anio_act_in, escritores.anio_act_fin FROM escritores JOIN alma_mater ON escritores.id_alma_mater = alma_mater.id_alma_mater AND escritores.id_escritor = %s'
+            #sql = 'SELECT * FROM escritores WHERE id_escritor = %s'
             vals = (id_escritor, )
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
+            if record == None:
+                sql = 'SELECT * FROM escritores WHERE id_escritor = %s'
+                self.cursor.execute(sql, vals)
+                record = self.cursor.fetchone()
             return record
         except connector.Error as err:
             return err
 
     def read_all_escritores(self):    # Caution if large ammount of data
         try:
-            sql = 'SELECT * FROM escritores'
+            sql = 'SELECT escritores.id_escritor, escritores.nombre, escritores.apellido, alma_mater.nombre, escritores.anio_act_in, escritores.anio_act_fin FROM escritores JOIN alma_mater ON escritores.id_alma_mater = alma_mater.id_alma_mater'
+            #sql = 'SELECT * FROM escritores'
             self.cursor.execute(sql)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM escritores WHERE id_alma_mater IS NULL'
+            self.cursor.execute(sql)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_escritores_nombre(self, nombre):
         try:
-            sql = 'SELECT * FROM escritores WHERE nombre = %s'
+            sql = 'SELECT escritores.id_escritor, escritores.nombre, escritores.apellido, alma_mater.nombre, escritores.anio_act_in, escritores.anio_act_fin FROM escritores JOIN alma_mater ON escritores.id_alma_mater = alma_mater.id_alma_mater AND escritores.nombre = %s'
+            #sql = 'SELECT * FROM escritores WHERE nombre = %s'
             vals = (nombre,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM escritores WHERE id_alma_mater IS NULL AND nombre = %s'
+            vals = (nombre,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_escritores_apellido(self, apellido):
         try:
-            sql = 'SELECT * FROM escritores WHERE apellido = %s'
+            sql = 'SELECT escritores.id_escritor, escritores.nombre, escritores.apellido, alma_mater.nombre, escritores.anio_act_in, escritores.anio_act_fin FROM escritores JOIN alma_mater ON escritores.id_alma_mater = alma_mater.id_alma_mater AND escritores.apellido = %s'
+            #sql = 'SELECT * FROM escritores WHERE apellido = %s'
             vals = (apellido,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM escritores WHERE id_alma_mater IS NULL AND apellido = %s'
+            vals = (apellido,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_escritores_alma_mater(self, alma_mater):
         try:
-            sql = 'SELECT * FROM escritores WHERE id_alma_mater = %s'
+            sql = 'SELECT escritores.id_escritor, escritores.nombre, escritores.apellido, alma_mater.nombre, escritores.anio_act_in, escritores.anio_act_fin FROM escritores JOIN alma_mater ON escritores.id_alma_mater = alma_mater.id_alma_mater AND escritores.id_alma_mater = %s'
+            #sql = 'SELECT * FROM escritores WHERE id_alma_mater = %s'
             vals = (alma_mater,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            if alma_mater == None:
+                sql = 'SELECT * FROM escritores WHERE id_alma_mater IS NULL'
+                self.cursor.execute(sql)
+                records = self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_escritores_anio_act_in(self, anio_act_in):
         try:
-            sql = 'SELECT * FROM escritores WHERE anio_act_in = %s'
+            sql = 'SELECT escritores.id_escritor, escritores.nombre, escritores.apellido, alma_mater.nombre, escritores.anio_act_in, escritores.anio_act_fin FROM escritores JOIN alma_mater ON escritores.id_alma_mater = alma_mater.id_alma_mater AND escritores.anio_act_in = %s'
+            #sql = 'SELECT * FROM escritores WHERE anio_act_in = %s'
             vals = (anio_act_in,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM escritores WHERE id_alma_mater IS NULL AND anio_act_in = %s'
+            vals = (anio_act_in,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_escritores_anio_act_fin(self, anio_act_fin):
         try:
-            sql = 'SELECT * FROM escritores WHERE anio_act_fin = %s'
+            sql = 'SELECT escritores.id_escritor, escritores.nombre, escritores.apellido, alma_mater.nombre, escritores.anio_act_in, escritores.anio_act_fin FROM escritores JOIN alma_mater ON escritores.id_alma_mater = alma_mater.id_alma_mater AND escritores.anio_act_fin = %s'
+            #sql = 'SELECT * FROM escritores WHERE anio_act_fin = %s'
             vals = (anio_act_fin,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM escritores WHERE id_alma_mater IS NULL AND anio_act_fin = %s'
+            vals = (anio_act_fin,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_escritores_anio_act_range(self, anio_ini, anio_end):
         try:
-            sql = 'SELECT * FROM escritores WHERE anio_act_in >= %s AND anio_act_fin <= %s'
+            sql = 'SELECT escritores.id_escritor, escritores.nombre, escritores.apellido, alma_mater.nombre, escritores.anio_act_in, escritores.anio_act_fin FROM escritores JOIN alma_mater ON escritores.id_alma_mater = alma_mater.id_alma_mater AND escritores.anio_act_in >= %s AND escritores.anio_act_fin <= %s'
+            #sql = 'SELECT * FROM escritores WHERE anio_act_in >= %s AND anio_act_fin <= %s'
             vals = (anio_ini, anio_end)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM escritores WHERE id_alma_mater IS NULL AND anio_act_in >= %s AND anio_act_fin <= %s'
+            vals = (anio_ini, anio_end)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
@@ -514,79 +578,118 @@ class Model:
 
     def read_a_actores(self, id_actor):
         try:
-            sql = 'SELECT * FROM actores WHERE id_actor = %s'
+            sql = 'SELECT actores.id_actor, actores.nombre, actores.apellido, alma_mater.nombre, actores.anio_act_in, actores.anio_act_fin FROM actores JOIN alma_mater ON actores.id_alma_mater = alma_mater.id_alma_mater AND actores.id_actor = %s'
+            #sql = 'SELECT * FROM actores WHERE id_actor = %s'
             vals = (id_actor, )
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
+            if record == None:
+                sql = 'SELECT * FROM actores WHERE id_actor = %s'
+                self.cursor.execute(sql, vals)
+                record = self.cursor.fetchone()
             return record
         except connector.Error as err:
             return err
 
     def read_all_actores(self):    # Caution if large ammount of data
         try:
-            sql = 'SELECT * FROM actores'
+            sql = 'SELECT actores.id_actor, actores.nombre, actores.apellido, alma_mater.nombre, actores.anio_act_in, actores.anio_act_fin FROM actores JOIN alma_mater ON actores.id_alma_mater = alma_mater.id_alma_mater'
+            #sql = 'SELECT * FROM actores'
             self.cursor.execute(sql)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM actores WHERE id_alma_mater IS NULL'
+            self.cursor.execute(sql)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_actores_nombre(self, nombre):
         try:
-            sql = 'SELECT * FROM actores WHERE nombre = %s'
+            sql = 'SELECT actores.id_actor, actores.nombre, actores.apellido, alma_mater.nombre, actores.anio_act_in, actores.anio_act_fin FROM actores JOIN alma_mater ON actores.id_alma_mater = alma_mater.id_alma_mater AND actores.nombre = %s'
+            #sql = 'SELECT * FROM actores WHERE nombre = %s'
             vals = (nombre,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM actores WHERE id_alma_mater IS NULL AND nombre = %s'
+            vals = (nombre,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_actores_apellido(self, apellido):
         try:
-            sql = 'SELECT * FROM actores WHERE apellido = %s'
+            sql = 'SELECT actores.id_actor, actores.nombre, actores.apellido, alma_mater.nombre, actores.anio_act_in, actores.anio_act_fin FROM actores JOIN alma_mater ON actores.id_alma_mater = alma_mater.id_alma_mater AND actores.apellido = %s'
+            #sql = 'SELECT * FROM actores WHERE apellido = %s'
             vals = (apellido,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM actores WHERE id_alma_mater IS NULL AND apellido = %s'
+            vals = (apellido,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_actores_alma_mater(self, alma_mater):
         try:
-            sql = 'SELECT * FROM actores WHERE id_alma_mater = %s'
+            sql = 'SELECT actores.id_actor, actores.nombre, actores.apellido, alma_mater.nombre, actores.anio_act_in, actores.anio_act_fin FROM actores JOIN alma_mater ON actores.id_alma_mater = alma_mater.id_alma_mater AND actores.id_alma_mater = %s'
+            #sql = 'SELECT * FROM actores WHERE id_alma_mater = %s'
             vals = (alma_mater,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            if alma_mater == None:
+                sql = 'SELECT * FROM actores WHERE id_alma_mater IS NULL'
+                self.cursor.execute(sql)
+                records = self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_actores_anio_act_in(self, anio_act_in):
         try:
-            sql = 'SELECT * FROM actores WHERE anio_act_in = %s'
+            sql = 'SELECT actores.id_actor, actores.nombre, actores.apellido, alma_mater.nombre, actores.anio_act_in, actores.anio_act_fin FROM actores JOIN alma_mater ON actores.id_alma_mater = alma_mater.id_alma_mater AND actores.anio_act_in = %s'
+            #sql = 'SELECT * FROM actores WHERE anio_act_in = %s'
             vals = (anio_act_in,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM actores WHERE id_alma_mater IS NULL AND anio_act_in = %s'
+            vals = (anio_act_in,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_actores_anio_act_fin(self, anio_act_fin):
         try:
-            sql = 'SELECT * FROM actores WHERE anio_act_fin = %s'
+            sql = 'SELECT actores.id_actor, actores.nombre, actores.apellido, alma_mater.nombre, actores.anio_act_in, actores.anio_act_fin FROM actores JOIN alma_mater ON actores.id_alma_mater = alma_mater.id_alma_mater AND actores.anio_act_fin = %s'
+            #sql = 'SELECT * FROM actores WHERE anio_act_fin = %s'
             vals = (anio_act_fin,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM actores WHERE id_alma_mater IS NULL AND anio_act_fin = %s'
+            vals = (anio_act_fin,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_actores_anio_act_range(self, anio_ini, anio_end):
         try:
-            sql = 'SELECT * FROM actores WHERE anio_act_in >= %s AND anio_act_fin <= %s'
+            sql = 'SELECT actores.id_actor, actores.nombre, actores.apellido, alma_mater.nombre, actores.anio_act_in, actores.anio_act_fin FROM actores JOIN alma_mater ON actores.id_alma_mater = alma_mater.id_alma_mater AND actores.anio_act_in >= %s AND actores.anio_act_fin <= %s'
+            #sql = 'SELECT * FROM actores WHERE anio_act_in >= %s AND anio_act_fin <= %s'
             vals = (anio_ini, anio_end)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT * FROM actores WHERE id_alma_mater IS NULL AND anio_act_in >= %s AND anio_act_fin <= %s'
+            vals = (anio_ini, anio_end)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
@@ -634,89 +737,133 @@ class Model:
 
     def read_a_peliculas(self, id_pelicula):
         try:
-            sql = 'SELECT * FROM peliculas WHERE id_pelicula = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director JOIN pais ON peliculas.id_pais = pais.id_pais AND peliculas.id_pelicula = %s'
+            #sql = 'SELECT * FROM peliculas WHERE id_pelicula = %s'
             vals = (id_pelicula,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
+            if record == None:
+                sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.id_pais, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director AND peliculas.id_pais IS NULL AND peliculas.id_pelicula = %s'
+                vals = (id_pelicula,)
+                self.cursor.execute(sql, vals)
+                record = self.cursor.fetchone()
             return record
         except connector.Error as err:
             return err
 
     def read_peliculas_id_genero(self, genero):
         try:
-            sql = 'SELECT * FROM peliculas WHERE id_genero = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director JOIN pais ON peliculas.id_pais = pais.id_pais AND peliculas.id_genero = %s'
+            #sql = 'SELECT * FROM peliculas WHERE id_genero = %s'
             vals = (genero,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.id_pais, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director AND peliculas.id_pais IS NULL AND peliculas.id_genero = %s'
+            vals = (genero,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_peliculas_titulo(self, titulo):
         try:
-            sql = 'SELECT * FROM peliculas WHERE titulo = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director JOIN pais ON peliculas.id_pais = pais.id_pais AND peliculas.titulo = %s'
+            #sql = 'SELECT * FROM peliculas WHERE titulo = %s'
             vals = (titulo,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.id_pais, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director AND peliculas.id_pais IS NULL AND peliculas.titulo = %s'
+            vals = (titulo,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_peliculas_id_director(self, director):
         try:
-            sql = 'SELECT * FROM peliculas WHERE id_director = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director JOIN pais ON peliculas.id_pais = pais.id_pais AND peliculas.id_director = %s'
+            #sql = 'SELECT * FROM peliculas WHERE id_director = %s'
             vals = (director,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.id_pais, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director AND peliculas.id_pais IS NULL AND peliculas.id_director = %s'
+            vals = (director,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
     
     def read_peliculas_anio(self, anio):
         try:
-            sql = 'SELECT * FROM peliculas WHERE anio = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director JOIN pais ON peliculas.id_pais = pais.id_pais AND peliculas.anio = %s'
+            #sql = 'SELECT * FROM peliculas WHERE anio = %s'
             vals = (anio,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.id_pais, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director AND peliculas.id_pais IS NULL AND peliculas.anio = %s'
+            vals = (anio,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_peliculas_anio_range(self, anio_ini, anio_end):
         try:
-            sql = 'SELECT * FROM actores WHERE anio >= %s AND anio <= %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director JOIN pais ON peliculas.id_pais = pais.id_pais AND peliculas.anio >= %s AND peliculas.anio <= %s'
+            #sql = 'SELECT * FROM actores WHERE anio >= %s AND anio <= %s'
             vals = (anio_ini, anio_end)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.id_pais, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director AND peliculas.id_pais IS NULL AND peliculas.anio >= %s AND peliculas.anio <= %s'
+            vals = (anio_ini, anio_end)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
     
     def read_peliculas_id_pais(self, pais):
         try:
-            sql = 'SELECT * FROM peliculas WHERE id_pais = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director JOIN pais ON peliculas.id_pais = pais.id_pais AND peliculas.id_pais = %s'
+            #sql = 'SELECT * FROM peliculas WHERE id_pais = %s'
             vals = (pais,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            if pais == None:
+                sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.id_pais, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director AND peliculas.id_pais IS NULL'
+                self.cursor.execute(sql)
+                records = self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_peliculas_calif(self, calif):
         try:
-            sql = 'SELECT * FROM peliculas WHERE calif = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director JOIN pais ON peliculas.id_pais = pais.id_pais AND peliculas.calif = %s'
+            #sql = 'SELECT * FROM peliculas WHERE calif = %s'
             vals = (calif,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.id_pais, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director AND peliculas.id_pais IS NULL AND peliculas.calif = %s'
+            vals = (calif,)
+            self.cursor.execute(sql, vals)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
 
     def read_all_peliculas(self):    # Caution if large ammount of data
         try:
-            sql = 'SELECT * FROM peliculas'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais'
             self.cursor.execute(sql)
             records = self.cursor.fetchall()
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.id_pais, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director AND peliculas.id_pais IS NULL'
+            self.cursor.execute(sql)
+            records += self.cursor.fetchall()
             return records
         except connector.Error as err:
             return err
@@ -761,19 +908,29 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def read_a_carrera_escritores(self, escritor):
+    def read_a_carrera_escritores(self, escritor, pelicula):
         try:
-            sql = 'SELECT * FROM carrera_escritores WHERE id_escritor = %s'
-            vals = (escritor,)
+            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.id_escritor = %s carrera_escritores.id_pelicula = %s'
+            vals = (escritor, pelicula)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
             return record
         except connector.Error as err:
             return err
 
+    def read_carrera_escritores_escritor(self, escritor):
+        try:
+            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.id_escritor = %s'
+            vals = (escritor,)
+            self.cursor.execute(sql, vals)
+            records = self.cursor.fetchall()
+            return records
+        except connector.Error as err:
+            return err
+
     def read_all_carrera_escritores(self):    # Caution if large ammount of data
         try:
-            sql = 'SELECT * FROM carrera_escritores'
+            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula'
             self.cursor.execute(sql)
             records = self.cursor.fetchall()
             return records
@@ -782,7 +939,7 @@ class Model:
 
     def read_carrera_escritores_pelicula(self, pelicula):
         try:
-            sql = 'SELECT * FROM carrera_escritores WHERE id_pelicula = %s'
+            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.id_pelicula = %s'
             vals = (pelicula,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -792,7 +949,7 @@ class Model:
 
     def read_carrera_escritores_remuneracion(self, remuneracion):
         try:
-            sql = 'SELECT * FROM carrera_escritores WHERE remuneracion = %s'
+            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.remuneracion = %s'
             vals = (remuneracion,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -802,7 +959,7 @@ class Model:
 
     def read_carrera_escritores_remuneracion_range(self, rem_ini, rem_end):
         try:
-            sql = 'SELECT * FROM carrera_escritores WHERE remuneracion >= %s AND remuneracion <= %s'
+            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.remuneracion >= %s AND carrera_escritores.remuneracion <= %s'
             vals = (rem_ini, rem_end)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -839,7 +996,8 @@ class Model:
             vals = (id_escritor, )
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            count = self.cursor.rowcount
+            return count
         except connector.Error as err:
             self.cnx.rollback()
             return err
@@ -861,9 +1019,19 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def read_a_carrera_actores(self, actor):
+    def read_a_carrera_actores(self, actor, pelicula):
         try:
-            sql = 'SELECT * FROM carrera_actores WHERE id_actor = %s'
+            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.id_actor = %s AND carrera_actores.id_pelicula = %s'
+            vals = (actor, pelicula)
+            self.cursor.execute(sql, vals)
+            record = self.cursor.fetchone()
+            return record
+        except connector.Error as err:
+            return err
+
+    def read_carrera_actores_actor(self, actor):
+        try:
+            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.id_actor = %s'
             vals = (actor,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
@@ -873,7 +1041,7 @@ class Model:
 
     def read_all_carrera_actores(self):    # Caution if large ammount of data
         try:
-            sql = 'SELECT * FROM carrera_actores'
+            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula'
             self.cursor.execute(sql)
             records = self.cursor.fetchall()
             return records
@@ -883,7 +1051,7 @@ class Model:
 
     def read_carrera_actores_pelicula(self, pelicula):
         try:
-            sql = 'SELECT * FROM carrera_actores WHERE id_pelicula = %s'
+            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.id_pelicula = %s'
             vals = (pelicula,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -893,7 +1061,7 @@ class Model:
 
     def read_carrera_actores_remuneracion(self, remuneracion):
         try:
-            sql = 'SELECT * FROM carrera_actores WHERE remuneracion = %s'
+            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.remuneracion = %s'
             vals = (remuneracion,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -903,7 +1071,7 @@ class Model:
 
     def read_carrera_actores_remuneracion_range(self, rem_ini, rem_end):
         try:
-            sql = 'SELECT * FROM carrera_actores WHERE remuneracion >= %s AND remuneracion <= %s'
+            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.remuneracion >= %s AND carrera_actores.remuneracion <= %s'
             vals = (rem_ini, rem_end)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -940,7 +1108,8 @@ class Model:
             vals = (id_actor, )
             self.cursor.execute(sql, vals)
             self.cnx.commit()
-            return True
+            count = self.cursor.rowcount
+            return count
         except connector.Error as err:
             self.cnx.rollback()
             return err
