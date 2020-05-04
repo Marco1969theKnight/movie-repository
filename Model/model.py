@@ -837,7 +837,7 @@ class Model:
 
     def read_a_carrera_escritores(self, escritor, pelicula):
         try:
-            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.id_escritor = %s carrera_escritores.id_pelicula = %s'
+            sql = 'SELECT carrera_escritores.id_escritor, escritores.nombre, escritores.apellido, carrera_escritores.id_pelicula, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.id_escritor = %s carrera_escritores.id_pelicula = %s'
             vals = (escritor, pelicula)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
@@ -847,7 +847,7 @@ class Model:
 
     def read_carrera_escritores_escritor(self, escritor):
         try:
-            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.id_escritor = %s'
+            sql = 'SELECT carrera_escritores.id_escritor, escritores.nombre, escritores.apellido, carrera_escritores.id_pelicula, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.id_escritor = %s'
             vals = (escritor,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -857,7 +857,7 @@ class Model:
 
     def read_all_carrera_escritores(self):    # Caution if large ammount of data
         try:
-            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula'
+            sql = 'SELECT carrera_escritores.id_escritor, escritores.nombre, escritores.apellido, carrera_escritores.id_pelicula, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula'
             self.cursor.execute(sql)
             records = self.cursor.fetchall()
             return records
@@ -866,7 +866,7 @@ class Model:
 
     def read_carrera_escritores_pelicula(self, pelicula):
         try:
-            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.id_pelicula = %s'
+            sql = 'SELECT carrera_escritores.id_escritor, escritores.nombre, escritores.apellido, carrera_escritores.id_pelicula, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.id_pelicula = %s'
             vals = (pelicula,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -876,7 +876,7 @@ class Model:
 
     def read_carrera_escritores_remuneracion(self, remuneracion):
         try:
-            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.remuneracion = %s'
+            sql = 'SELECT carrera_escritores.id_escritor, escritores.nombre, escritores.apellido, carrera_escritores.id_pelicula, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.remuneracion = %s'
             vals = (remuneracion,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -886,7 +886,7 @@ class Model:
 
     def read_carrera_escritores_remuneracion_range(self, rem_ini, rem_end):
         try:
-            sql = 'SELECT escritores.nombre, escritores.apellido, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.remuneracion >= %s AND carrera_escritores.remuneracion <= %s'
+            sql = 'SELECT carrera_escritores.id_escritor, escritores.nombre, escritores.apellido, carrera_escritores.id_pelicula, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.remuneracion >= %s AND carrera_escritores.remuneracion <= %s'
             vals = (rem_ini, rem_end)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -948,7 +948,7 @@ class Model:
 
     def read_a_carrera_actores(self, actor, pelicula):
         try:
-            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.id_actor = %s AND carrera_actores.id_pelicula = %s'
+            sql = 'SELECT  carrera_actores.id_actor, actores.nombre, actores.apellido, carrera_actores.id_pelicula, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.id_actor = %s AND carrera_actores.id_pelicula = %s'
             vals = (actor, pelicula)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
@@ -958,7 +958,7 @@ class Model:
 
     def read_carrera_actores_actor(self, actor):
         try:
-            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.id_actor = %s'
+            sql = 'SELECT carrera_actores.id_actor, actores.nombre, actores.apellido, carrera_actores.id_pelicula, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.id_actor = %s'
             vals = (actor,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
@@ -968,7 +968,7 @@ class Model:
 
     def read_all_carrera_actores(self):    # Caution if large ammount of data
         try:
-            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula'
+            sql = 'SELECT carrera_actores.id_actor, actores.nombre, actores.apellido, carrera_actores.id_pelicula, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula'
             self.cursor.execute(sql)
             records = self.cursor.fetchall()
             return records
@@ -978,7 +978,7 @@ class Model:
 
     def read_carrera_actores_pelicula(self, pelicula):
         try:
-            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.id_pelicula = %s'
+            sql = 'SELECT carrera_actores.id_actor, actores.nombre, actores.apellido, carrera_actores.id_pelicula, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.id_pelicula = %s'
             vals = (pelicula,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -988,7 +988,7 @@ class Model:
 
     def read_carrera_actores_remuneracion(self, remuneracion):
         try:
-            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.remuneracion = %s'
+            sql = 'SELECT carrera_actores.id_actor, actores.nombre, actores.apellido, carrera_actores.id_pelicula, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.remuneracion = %s'
             vals = (remuneracion,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -998,7 +998,7 @@ class Model:
 
     def read_carrera_actores_remuneracion_range(self, rem_ini, rem_end):
         try:
-            sql = 'SELECT actores.nombre, actores.apellido, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.remuneracion >= %s AND carrera_actores.remuneracion <= %s'
+            sql = 'SELECT carrera_actores.id_actor, actores.nombre, actores.apellido, carrera_actores.id_pelicula, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.remuneracion >= %s AND carrera_actores.remuneracion <= %s'
             vals = (rem_ini, rem_end)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
