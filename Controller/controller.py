@@ -944,3 +944,485 @@ class Controller:
             else:
                 self.view.error('PROBLEMA AL BORRAR EL ESCRITOR. REVISA')
         return
+
+
+    """
+    ***************************
+    * Controllers for actors  *
+    ***************************
+    """
+
+    def actores_menu(self):
+        o = '100'
+        while o != '0':
+            self.view.actores_menu()
+            self.view.option('11')
+            o = input()
+            if o == '1':
+                self.create_actores()
+            elif o == '2':
+                self.read_a_actores()
+            elif o == '3':
+                self.read_all_actores()
+            elif o == '4':
+                self.read_actores_nombre()
+            elif o == '5':
+                self.read_actores_apellido()
+            elif o == '6':
+                self.read_actores_alma_mater()
+            elif o == '7':
+                self.read_actores_anio_act_in()
+            elif o == '8':
+                self.read_actores_anio_act_fin()
+            elif o == '9':
+                self.read_actores_anio_act_range()
+            elif o == '10':
+                self.update_actores()
+            elif o == '11':
+                self.delete_actores()
+            elif o == '0':
+                return
+            else:
+                self.view.not_valid_option()
+        return
+
+    def ask_actores(self):
+        self.view.ask('Nombre: ')
+        nombre = input()
+        self.view.ask('Apellido: ')
+        apellido = input()
+        self.view.ask('ID Universidad: ')
+        id_alma_mater = input()
+        self.view.ask('Año de inicio: ')
+        anio_act_in = input()
+        self.view.ask('Año fin: ')
+        anio_act_fin = input()
+        return [nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin]
+
+    def create_actores(self):
+        nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin = self.ask_actores()
+        out = self.model.create_actores(
+            nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin)
+        if type(out) == int:
+            self.view.ok(nombre+' '+apellido, 'agrego')
+        else:
+            if out.errno == 1062:
+                self.view.error('EL ACTOR ESTA REPETIDO')
+            else:
+                self.view.error('NO SE PUDO AGREGAR AL ACTOR. REVISA')
+        return
+
+    def read_a_actores(self):
+        self.view.ask('ID actor: ')
+        id_actor = input()
+        actor = self.model.read_a_actores(id_actor)
+        if type(actor) == tuple:
+            self.view.show_actores_header(
+                ' Datos del actor '+id_actor+' ')
+            self.view.show_a_actores(actor)
+            self.view.show_actores_midder()
+            self.view.show_actores_footer()
+        else:
+            if actor == None:
+                self.view.error('EL ACTOR NO EXISTE')
+            else:
+                self.view.error('PROBLEMA AL LEER AL ACTOR. REVISA')
+        return
+
+    def read_all_actores(self):
+        actores = self.model.read_all_actores()
+        if type(actores) == list:
+            self.view.show_actores_header(' Todos los actores ')
+            for actor in actores:
+                self.view.show_a_actores(actor)
+                self.view.show_actores_midder()
+            self.view.show_actores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER A LOS ACTORES')
+        return
+
+    def read_actores_nombre(self):
+        self.view.ask('Nombre: ')
+        nombre = input()
+        actores = self.model.read_actores_nombre(nombre)
+        if type(actores) == list:
+            self.view.show_actores_header(
+                ' Actores que tienen el nombre '+nombre+' ')
+            for actor in actores:
+                self.view.show_a_actores(actor)
+                self.view.show_actores_midder()
+            self.view.show_actores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER A LOS ACTORES. REVISA')
+        return
+
+    def read_actores_apellido(self):
+        self.view.ask('Apellido: ')
+        apellido = input()
+        actores = self.model.read_actores_apellido(apellido)
+        if type(actores) == list:
+            self.view.show_actores_header(
+                ' Actores que tienen el apellido '+apellido+' ')
+            for actor in actores:
+                self.view.show_a_actores(actor)
+                self.view.show_actores_midder()
+            self.view.show_actores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER A LOS ACTORES. REVISA')
+        return
+
+    def read_actores_alma_mater(self):
+        self.view.ask('ID universidad: ')
+        id_alma_mater = input()
+        actores = self.model.read_actores_alma_mater(id_alma_mater)
+        if type(actores) == list:
+            self.view.show_actores_header(
+                ' Actores que tienen como Alma Mater '+id_alma_mater+' ')
+            for actor in actores:
+                self.view.show_a_actores(actor)
+                self.view.show_actores_midder()
+            self.view.show_actores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER A LOS ACTORES. REVISA')
+        return
+
+    def read_actores_anio_act_in(self):
+        self.view.ask('Año de inicio: ')
+        anio_act_in = input()
+        actores = self.model.read_actores_anio_act_in(anio_act_in)
+        if type(actores) == list:
+            self.view.show_actores_header(
+                ' Actores que su carrera empezo en '+anio_act_in+' ')
+            for actor in actores:
+                self.view.show_a_actores(actor)
+                self.view.show_actores_midder()
+            self.view.show_actores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER A LOS ACTORES. REVISA')
+        return
+
+    def read_actores_anio_act_fin(self):
+        self.view.ask('Año fin: ')
+        anio_act_fin = input()
+        actores = self.model.read_actores_anio_act_fin(anio_act_fin)
+        if type(actores) == list:
+            self.view.show_actores_header(
+                ' Actores que su carrera finalizo en '+anio_act_fin+' ')
+            for actor in actores:
+                self.view.show_a_actores(actor)
+                self.view.show_actores_midder()
+            self.view.show_actores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER A LOS ACTORES. REVISA')
+        return
+
+    def read_actores_anio_act_range(self):
+        self.view.ask('Año de inicio: ')
+        anio_act_in = input()
+        self.view.ask('Año fin: ')
+        anio_act_fin = input()
+        actores = self.model.read_actores_anio_act_range(
+            anio_act_in, anio_act_fin)
+        if type(actores) == list:
+            self.view.show_actores_header(
+                ' Actores donde su carrera se encuentra entre '+anio_act_in+' y '+anio_act_fin+' ')
+            for actor in actores:
+                self.view.show_a_actores(actor)
+                self.view.show_actores_midder()
+            self.view.show_actores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER A LOS ACTORES. REVISA')
+        return
+
+    def update_actores(self):
+        self.view.ask('ID del actor modificar: ')
+        id_actor = input()
+        actor = self.model.read_a_actores(id_actor)
+        if type(actor) == tuple:
+            self.view.show_actores_header(
+                ' Datos del actor '+id_actor+' ')
+            self.view.show_a_actores(actor)
+            self.view.show_actores_midder()
+            self.view.show_actores_footer()
+        else:
+            if actor == None:
+                self.view.error('EL ACTOR NO EXISTE')
+            else:
+                self.view.error('PROBLEMA AL LEER AL ACTOR. REVISA')
+            return
+        self.view.msg(
+            'Ingresa los valores a modificar (vacio para dejarlo igual):')
+        whole_vals = self.ask_actores()
+        fields, vals = self.update_list(
+            ['nombre', 'apellido', 'id_alma_mater', 'anio_act_in', 'anio_act_fin'], whole_vals)
+        vals.append(id_actor)
+        vals = tuple(vals)
+        out = self.model.update_actores(fields, vals)
+        if type(out) == int:
+            self.view.ok(id_actor, 'actualizo')
+        else:
+            self.view.error('NO SE PUDO ACTUALIZAR AL ACTOR. REVISA')
+        return
+
+    def delete_actores(self):
+        self.view.ask('ID del actor: ')
+        id_actor = input()
+        count = self.model.delete_actores(id_actor)
+        if count != 0:
+            self.view.ok(id_actor, 'borro')
+        else:
+            if count == 0:
+                self.view.error('EL ACTOR NO EXISTE')
+            else:
+                self.view.error('PROBLEMA AL BORRAR AL ACTOR. REVISA')
+        return
+
+    """
+    ***************************
+    * Controllers for movies  *
+    ***************************
+    """
+
+    def peliculas_menu(self):
+        o = '100'
+        while o != '0':
+            self.view.peliculas_menu()
+            self.view.option('12')
+            o = input()
+            if o == '1':
+                self.create_peliculas()
+            elif o == '2':
+                self.read_a_peliculas()
+            elif o == '3':
+                self.read_all_peliculas()
+            elif o == '4':
+                self.read_peliculas_titulo()
+            elif o == '5':
+                self.read_peliculas_id_genero()
+            elif o == '6':
+                self.read_peliculas_id_director()
+            elif o == '7':
+                self.read_peliculas_anio()
+            elif o == '8':
+                self.read_peliculas_anio_range()
+            elif o == '9':
+                self.read_peliculas_id_pais()
+            elif o == '10':
+                self.read_peliculas_calif()
+            elif o == '11':
+                self.update_peliculas()
+            elif o == '12':
+                self.delete_peliculas()
+            elif o == '0':
+                return
+            else:
+                self.view.not_valid_option()
+        return
+
+    def ask_peliculas(self):
+        self.view.ask('Titulo: ')
+        titulo = input()
+        self.view.ask('ID Genero: ')
+        id_genero = input()
+        self.view.ask('ID Director: ')
+        id_director = input()
+        self.view.ask('Año de lanzamiento: ')
+        anio = input()
+        self.view.ask('ID Pais: ')
+        id_pais = input()
+        self.view.ask('Calificacion: ')
+        calif = input()
+        return [titulo, id_genero, id_director, anio, id_pais, calif]
+
+    def create_peliculas(self):
+        titulo, id_genero, id_director, anio, id_pais, calif = self.ask_peliculas()
+        out = self.model.create_peliculas(
+            titulo, id_genero, id_director, anio, id_pais, calif)
+        if type(out) == int:
+            self.view.ok(titulo, 'agrego')
+        else:
+            if out.errno == 1062:
+                self.view.error('LA PELICULA ESTA REPETIDA')
+            else:
+                self.view.error('NO SE PUDO AGREGAR LA PELICULA. REVISA')
+        return
+
+    def read_a_peliculas(self):
+        self.view.ask('ID pelicula: ')
+        id_pelicula = input()
+        pelicula = self.model.read_a_peliculas(id_pelicula)
+        if type(pelicula) == tuple:
+            self.view.show_peliculas_header(
+                ' Datos de la pelicula '+id_pelicula+' ')
+            self.view.show_a_peliculas(pelicula)
+            self.view.show_peliculas_midder()
+            self.view.show_peliculas_footer()
+        else:
+            if pelicula == None:
+                self.view.error('LA PELICULA NO EXISTE')
+            else:
+                self.view.error('PROBLEMA AL LEER LA PELICULA. REVISA')
+        return
+
+    def read_all_peliculas(self):
+        peliculas = self.model.read_all_peliculas()
+        if type(peliculas) == list:
+            self.view.show_peliculas_header(' Todas las peliculas ')
+            for pelicula in peliculas:
+                self.view.show_a_peliculas(pelicula)
+                self.view.show_peliculas_midder()
+            self.view.show_peliculas_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LA PELICULA')
+        return
+
+    def read_peliculas_titulo(self):
+        self.view.ask('Titulo: ')
+        titulo = input()
+        peliculas = self.model.read_peliculas_titulo(titulo)
+        if type(peliculas) == list:
+            self.view.show_peliculas_header(
+                ' Peliculas que tienen el titulo '+titulo+' ')
+            for pelicula in peliculas:
+                self.view.show_a_peliculas(pelicula)
+                self.view.show_peliculas_midder()
+            self.view.show_peliculas_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LA PELICULA. REVISA')
+        return
+
+    def read_peliculas_id_genero(self):
+        self.view.ask('ID Genero: ')
+        id_genero = input()
+        peliculas = self.model.read_peliculas_id_genero(id_genero)
+        if type(peliculas) == list:
+            self.view.show_peliculas_header(
+                ' Peliculas que tienen el genero '+id_genero+' ')
+            for pelicula in peliculas:
+                self.view.show_a_peliculas(pelicula)
+                self.view.show_peliculas_midder()
+            self.view.show_peliculas_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LA PELICULA. REVISA')
+        return
+
+    def read_peliculas_id_director(self):
+        self.view.ask('ID Director: ')
+        id_director = input()
+        peliculas = self.model.read_peliculas_id_director(id_director)
+        if type(peliculas) == list:
+            self.view.show_peliculas_header(
+                ' Peliculas que tienen como director '+id_director+' ')
+            for pelicula in peliculas:
+                self.view.show_a_peliculas(pelicula)
+                self.view.show_peliculas_midder()
+            self.view.show_peliculas_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LA PELICULA. REVISA')
+        return
+
+    def read_peliculas_anio(self):
+        self.view.ask('Año de lanzamiento: ')
+        anio = input()
+        peliculas = self.model.read_peliculas_anio(anio)
+        if type(peliculas) == list:
+            self.view.show_peliculas_header(
+                ' Peliculas que se publicaron en el año '+anio+' ')
+            for pelicula in peliculas:
+                self.view.show_a_peliculas(pelicula)
+                self.view.show_peliculas_midder()
+            self.view.show_peliculas_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LA PELICULA. REVISA')
+        return
+
+    def read_peliculas_anio_range(self):
+        self.view.ask('Desde el año: ')
+        anio_in = input()
+        self.view.ask('Hasta el año: ')
+        anio_fin = input()
+        peliculas = self.model.read_peliculas_anio_range(
+            anio_in, anio_fin)
+        if type(peliculas) == list:
+            self.view.show_peliculas_header(
+                ' Peliculas donde su año de lanzamiento se encuentra entre '+anio_in+' y '+anio_fin+' ')
+            for pelicula in peliculas:
+                self.view.show_a_peliculas(pelicula)
+                self.view.show_peliculas_midder()
+            self.view.show_peliculas_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LAS PELICULAS. REVISA')
+        return
+
+    def read_peliculas_id_pais(self):
+        self.view.ask('ID Pais: ')
+        id_pais = input()
+        peliculas = self.model.read_peliculas_id_pais(id_pais)
+        if type(peliculas) == list:
+            self.view.show_peliculas_header(
+                ' Peliculas donde su pais se filmo en '+id_pais+' ')
+            for pelicula in peliculas:
+                self.view.show_a_peliculas(pelicula)
+                self.view.show_peliculas_midder()
+            self.view.show_peliculas_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LAS PELICULAS. REVISA')
+        return
+
+    def read_peliculas_calif(self):
+        self.view.ask('Calificacion: ')
+        calif = input()
+        peliculas = self.model.read_peliculas_calif(calif)
+        if type(peliculas) == list:
+            self.view.show_peliculas_header(
+                ' Peliculas que su calificacion fue '+calif+' ')
+            for pelicula in peliculas:
+                self.view.show_a_peliculas(pelicula)
+                self.view.show_peliculas_midder()
+            self.view.show_peliculas_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LAS PELICULAS. REVISA')
+        return
+
+    def update_peliculas(self):
+        self.view.ask('ID de la pelicula a modificar: ')
+        id_pelicula = input()
+        pelicula = self.model.read_a_peliculas(id_pelicula)
+        if type(pelicula) == tuple:
+            self.view.show_peliculas_header(
+                ' Datos de la pelicula '+id_pelicula+' ')
+            self.view.show_a_peliculas(pelicula)
+            self.view.show_peliculas_midder()
+            self.view.show_peliculas_footer()
+        else:
+            if pelicula == None:
+                self.view.error('LA PELICULA NO EXISTE')
+            else:
+                self.view.error('PROBLEMA AL LEER LA PELICULA. REVISA')
+            return
+        self.view.msg(
+            'Ingresa los valores a modificar (vacio para dejarlo igual):')
+        whole_vals = self.ask_peliculas()
+        fields, vals = self.update_list(
+            ['titulo', 'id_genero', 'id_director', 'anio', 'id_pais', 'calif'], whole_vals)
+        vals.append(id_pelicula)
+        vals = tuple(vals)
+        out = self.model.update_peliculas(fields, vals)
+        if type(out) == int:
+            self.view.ok(id_pelicula, 'actualizo')
+        else:
+            self.view.error('NO SE PUDO ACTUALIZAR LA PELICULA. REVISA')
+        return
+
+    def delete_peliculas(self):
+        self.view.ask('ID de la pelicula: ')
+        id_pelicula = input()
+        count = self.model.delete_peliculas(id_pelicula)
+        if count != 0:
+            self.view.ok(id_pelicula, 'borro')
+        else:
+            if count == 0:
+                self.view.error('LA PELICULA NO EXISTE')
+            else:
+                self.view.error('PROBLEMA AL BORRAR LA PELICULA. REVISA')
+        return
