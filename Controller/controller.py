@@ -29,23 +29,23 @@ class Controller:
             self.view.option('9')
             o = input()
             if o == '1':
-                self.view.pais_menu()
+                self.pais_menu()
             elif o == '2':
-                self.view.genero_menu()
+                self.genero_menu()
             elif o == '3':
-                self.view.alma_mater_menu()
+                self.alma_mater_menu()
             elif o == '4':
-                self.view.directores_menu()
+                self.directores_menu()
             elif o == '5':
-                self.view.escritores_menu()
+                self.escritores_menu()
             elif o == '6':
-                self.view.actores_menu()
+                self.actores_menu()
             elif o == '7':
-                self.view.peliculas_menu()
+                self.peliculas_menu()
             elif o == '8':
-                self.view.carrera_escritores_menu()
+                self.carrera_escritores_menu()
             elif o == '9':
-                self.view.carrera_actores_menu()
+                self.carrera_actores_menu()
             elif o == '0':
                 self.view.end()
             else:
