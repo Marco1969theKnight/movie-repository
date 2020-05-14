@@ -74,6 +74,16 @@ class Model:
             return records
         except connector.Error as err:
             return err
+
+    def update_pais(self, fields, vals):
+        try:
+            sql = 'UPDATE pais SET '+','.join(fields)+' WHERE id_pais = %s'
+            self.cursor.execute(sql, vals)
+            self.cnx.commit()
+            return True
+        except connector.Error as err:
+            self.cnx.rollback()
+            return err
     
     def delete_pais(self, id_pais):
         try:
@@ -147,16 +157,6 @@ class Model:
     def update_genero(self, fields, vals):
         try:
             sql = 'UPDATE genero SET '+','.join(fields)+' WHERE id_genero = %s'
-            self.cursor.execute(sql, vals)
-            self.cnx.commit()
-            return True
-        except connector.Error as err:
-            self.cnx.rollback()
-            return err
-    
-    def update_genero_nombre(self, fields, vals):
-        try:
-            sql = 'UPDATE genero SET '+','.join(fields)+' WHERE nombre = %s'
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -237,17 +237,6 @@ class Model:
         try:
             sql = 'UPDATE alma_mater SET ' + \
                 ','.join(fields)+' WHERE id_alma_mater = %s'
-            self.cursor.execute(sql, vals)
-            self.cnx.commit()
-            return True
-        except connector.Error as err:
-            self.cnx.rollback()
-            return err
-    
-    def update_alma_mater_nombre(self, fields, vals):
-        try:
-            sql = 'UPDATE alma_mater SET ' + \
-                ','.join(fields)+' WHERE nombre = %s'
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -379,17 +368,6 @@ class Model:
             self.cnx.rollback()
             return err
 
-    def update_directores_nom_and_ape(self, fields, vals):
-        try:
-            sql = 'UPDATE directores SET ' + \
-                ','.join(fields)+' WHERE nombre = %s AND apellido = %s'
-            self.cursor.execute(sql, vals)
-            self.cnx.commit()
-            return True
-        except connector.Error as err:
-            self.cnx.rollback()
-            return err
-
     def delete_directores(self, id_director):
         try:
             sql = 'DELETE FROM directores WHERE id_director = %s'
@@ -507,17 +485,6 @@ class Model:
         try:
             sql = 'UPDATE escritores SET ' + \
                 ','.join(fields)+' WHERE id_escritor'
-            self.cursor.execute(sql, vals)
-            self.cnx.commit()
-            return True
-        except connector.Error as err:
-            self.cnx.rollback()
-            return err
-
-    def update_escritores_nom_ape(self, fields, vals):
-        try:
-            sql = 'UPDATE escritores SET ' + \
-                ','.join(fields)+' WHERE nombre = %s AND apellido = %s'
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -643,17 +610,6 @@ class Model:
         try:
             sql = 'UPDATE actores SET ' + \
                 ','.join(fields)+' WHERE id_actor = %s'
-            self.cursor.execute(sql, vals)
-            self.cnx.commit()
-            return True
-        except connector.Error as err:
-            self.cnx.rollback()
-            return err
-
-    def update_actores_nom_and_ape(self, fields, vals):
-        try:
-            sql = 'UPDATE actores SET ' + \
-                ','.join(fields)+' WHERE nombre = %s AND apellido = %s'
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -788,17 +744,6 @@ class Model:
         try:
             sql = 'UPDATE peliculas SET ' + \
                 ','.join(fields)+' WHERE id_pelicula = %s'
-            self.cursor.execute(sql, vals)
-            self.cnx.commit()
-            return True
-        except connector.Error as err:
-            self.cnx.rollback()
-            return err
-
-    def update_peliculas_titulo(self, fields, vals):
-        try:
-            sql = 'UPDATE peliculas SET ' + \
-                ','.join(fields)+' WHERE titulo = %s'
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True

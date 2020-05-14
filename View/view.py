@@ -4,6 +4,7 @@ class View:
     * A view for a movie DB *
     *************************
     """
+
     def start(self):
         print('==================================================')
         print('= ¡Bienvenido a nuestra biblioteca de peliculas! =')
@@ -65,7 +66,8 @@ class View:
         print('2. Mostrar pais')
         print('3. Mostrar todos los paises')
         print('4. Mostrar pais por nombre')
-        print('5. Eliminar pais')
+        print('5. Actualizar nombre del pais')
+        print('6. Eliminar pais')
         print('0. Regresar')
 
     def show_a_pais(self, record):
@@ -98,8 +100,7 @@ class View:
         print('4. Mostrar generos por nombre')
         print('5. Mostrar generos por subgenero')
         print('6. Actualizar genero')
-        print('7. Actualizar genero por nombre')
-        print('8. Eliminar genero')
+        print('7. Eliminar genero')
         print('0. Regresar')
 
     def show_a_genero(self, record):
@@ -133,8 +134,7 @@ class View:
         print('4. Mostrar alma maters por nombre')
         print('5. Mostrar alma maters por pais')
         print('6. Actualizar alma mater')
-        print('7. Actualizar alma mater por nombre')
-        print('8. Eliminar alma mater')
+        print('7. Eliminar alma mater')
         print('0. Regresar')
         
     def show_a_alma_mater(self, record):
@@ -172,8 +172,7 @@ class View:
         print('8. Mostrar directores por año final de carrera')
         print('9. Mostrar directores por rango de años')
         print('10. Actualizar director')
-        print('11. Actualizar director por nombre y apellido')
-        print('12. Eliminar director')
+        print('11. Eliminar director')
         print('0. Regresar')
 
     def show_a_directores(self, record):
@@ -214,8 +213,7 @@ class View:
         print('8. Mostrar escritores por año final de carrera')
         print('9. Mostrar escritores por rango de años')
         print('10. Actualizar escritor')
-        print('11. Actualizar escritor por nombre y apellido')
-        print('12. Eliminar escritor')
+        print('11. Eliminar escritor')
         print('0. Regresar')
 
     def show_a_escritores(self, record):
@@ -256,8 +254,7 @@ class View:
         print('8. Mostrar actores por año final de carrera')
         print('9. Mostrar actores por rango de años')
         print('10. Actualizar actor')
-        print('11. Actualizar actor por nombre y apellido')
-        print('12. Eliminar actor')
+        print('11. Eliminar actor')
         print('0. Regresar')
 
     def show_a_actores(self, record):
@@ -299,8 +296,7 @@ class View:
         print('9. Mostrar peliculas por pais')
         print('10. Mostrar peliculas por calificacion')
         print('11. Actualizar pelicula')
-        print('12. Actualizar pelicula por titulo')
-        print('13. Eliminar pelicula')
+        print('12. Eliminar pelicula')
         print('0. Regresar')
 
     def show_a_peliculas(self, record):
@@ -336,12 +332,12 @@ class View:
         print('2. Mostrar la carrera de todos los escritores')
         print('3. Mostrar participacion del escritor en una pelicula')
         print('4. Mostrar la carrera del escritor')
-        print('4. Mostrar los escritores de una pelicula')
-        print('5. Mostrar participacion de escritores por remuneracion')
-        print('6. Mostrar participacion de escritores por rango de remuneracion')
-        print('12. Actualizar una participacion de un escritor')
-        print('13. Eliminar una participacion de un escritor')
-        print('13. Eliminar la carrera de un escritor')
+        print('5. Mostrar los escritores de una pelicula')
+        print('6. Mostrar participacion de escritores por remuneracion')
+        print('7. Mostrar participacion de escritores por rango de remuneracion')
+        print('8. Actualizar una participacion de un escritor')
+        print('9. Eliminar una participacion de un escritor')
+        print('10. Eliminar la carrera de un escritor')
         print('0. Regresar')
 
     def show_a_carrera_escritores(self, record):
@@ -375,12 +371,12 @@ class View:
         print('2. Mostrar la carrera de todos los actores')
         print('3. Mostrar participacion del actor en una pelicula')
         print('4. Mostrar la carrera del actor')
-        print('4. Mostrar los actores de una pelicula')
-        print('5. Mostrar participacion de actores por remuneracion')
-        print('6. Mostrar participacion de actores por rango de remuneracion')
-        print('12. Actualizar una participacion de un actor')
-        print('13. Eliminar una participacion de un actor')
-        print('13. Eliminar la carrera de un actor')
+        print('5. Mostrar los actores de una pelicula')
+        print('6. Mostrar participacion de actores por remuneracion')
+        print('7. Mostrar participacion de actores por rango de remuneracion')
+        print('8. Actualizar una participacion de un actor')
+        print('9. Eliminar una participacion de un actor')
+        print('10. Eliminar la carrera de un actor')
         print('0. Regresar')
 
     def show_a_carrera_actores(self, record):
