@@ -1273,7 +1273,7 @@ class Controller:
                 self.view.show_peliculas_midder()
             self.view.show_peliculas_footer()
         else:
-            self.view.error('PROBLEMA AL LEER LA PELICULA')
+            self.view.error('PROBLEMA AL LEER LAS PELICULAS')
         return
 
     def read_peliculas_titulo(self):
@@ -1425,4 +1425,461 @@ class Controller:
                 self.view.error('LA PELICULA NO EXISTE')
             else:
                 self.view.error('PROBLEMA AL BORRAR LA PELICULA. REVISA')
+        return
+
+    """
+    ***********************************
+    * Controllers for writers career  *
+    ***********************************
+    """
+
+    def carrera_escritores_menu(self):
+        o = '100'
+        while o != '0':
+            self.view.carrera_escritores_menu()
+            self.view.option('10')
+            o = input()
+            if o == '1':
+                self.create_carrera_escritores()
+            elif o == '2':
+                self.read_all_carrera_escritores()
+            elif o == '3':
+                self.read_a_carrera_escritores()
+            elif o == '4':
+                self.read_carrera_escritores_escritor()
+            elif o == '5':
+                self.read_carrera_escritores_pelicula()
+            elif o == '6':
+                self.read_carrera_escritores_remuneracion()
+            elif o == '7':
+                self.read_carrera_escritores_remuneracion_range()
+            elif o == '8':
+                self.update_carrera_escritores()
+            elif o == '9':
+                self.delete_carrera_escritores()
+            elif o == '10':
+                self.delete_carrera_escritores_escritor()
+            elif o == '0':
+                return
+            else:
+                self.view.not_valid_option()
+        return
+
+    def ask_carrera_escritores(self):
+        self.view.ask('ID Escritor: ')
+        id_escritor = input()
+        self.view.ask('ID Pelicula: ')
+        id_pelicula = input()
+        self.view.ask('Remuneracion: ')
+        remuneracion = input()
+        return [id_escritor, id_pelicula, remuneracion]
+
+    def create_carrera_escritores(self):
+        id_escritor, id_pelicula, remuneracion = self.ask_carrera_escritores()
+        out = self.model.create_carrera_escritores(
+            id_escritor, id_pelicula, remuneracion)
+        if type(out) == int:
+            self.view.ok(id_escritor+' '+id_pelicula, 'agrego')
+        else:
+            if out.errno == 1062:
+                self.view.error('LA CARRERA DEL ESCRITOR ESTA REPETIDA')
+            else:
+                self.view.error('NO SE PUDO AGREGAR LA CARRERA DEL ESCRITOR. REVISA')
+        return
+
+    def read_all_carrera_escritores(self):
+        carrera_escritores = self.model.read_all_carrera_escritores()
+        if type(carrera_escritores) == list:
+            self.view.show_carrera_escritores_header(' La carrera completa de todos los escritores ')
+            for carrera_escritor in carrera_escritores:
+                self.view.show_a_carrera_escritores(carrera_escritor)
+                self.view.show_carrera_escritores_midder()
+            self.view.show_carrera_escritores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LAS CARRERAS DE LOS ESCRITORES')
+        return
+
+    def read_a_carrera_escritores(self):
+        self.view.ask('ID Escritor: ')
+        id_escritor = input()
+        self.view.ask('ID Pelicula: ')
+        id_pelicula = input()
+        carrera_escritores = self.model.read_a_carrera_escritores(id_escritor, id_pelicula)
+        if type(carrera_escritores) == tuple:
+            self.view.show_carrera_escritores_header(
+                ' Datos de la participacion del escritor '+id_escritor+' en la pelicula '+id_pelicula+' ')
+            self.view.show_a_carrera_escritores(carrera_escritores)
+            self.view.show_carrera_escritores_midder()
+            self.view.show_carrera_escritores_footer()
+        else:
+            if carrera_escritores == None:
+                self.view.error('LA PARTICIPACION DEL ESCRITOR NO EXISTE')
+            else:
+                self.view.error(
+                    'PROBLEMA AL LEER LA PARTICIPACION DEL ESCRITOR. REVISA')
+        return
+
+    def read_carrera_escritores_escritor(self):
+        self.view.ask('ID escritor: ')
+        id_escritor = input()
+        carrera_escritor = self.model.read_carrera_escritores_escritor(
+            id_escritor)
+        if type(carrera_escritor) == list:
+            self.view.show_carrera_escritores_header(
+                ' La carrera completa del escritor '+id_escritor+' ')
+            for carrera in carrera_escritor:
+                self.view.show_a_carrera_escritores(carrera)
+                self.view.show_carrera_escritores_midder()
+            self.view.show_carrera_escritores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LA CARRERA DEL ESCRITOR. REVISA')
+        return
+
+    def read_carrera_escritores_pelicula(self):
+        self.view.ask('ID Pelicula: ')
+        id_pelicula = input()
+        carrera_escritor = self.model.read_carrera_escritores_pelicula(
+            id_pelicula)
+        if type(carrera_escritor) == list:
+            self.view.show_carrera_escritores_header(
+                ' Los escritores que participaron en la pelicula '+id_pelicula+' ')
+            for carrera in carrera_escritor:
+                self.view.show_a_carrera_escritores(carrera)
+                self.view.show_carrera_escritores_midder()
+            self.view.show_carrera_escritores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LOS ESCRITORES DE LA PELICULA. REVISA')
+        return
+
+    def read_carrera_escritores_remuneracion(self):
+        self.view.ask('Remuneracion: ')
+        remuneracion = input()
+        carrera_escritor = self.model.read_carrera_escritores_remuneracion(
+            remuneracion)
+        if type(carrera_escritor) == list:
+            self.view.show_carrera_escritores_header(
+                ' Los escritores que tuvieron como remuneracion '+remuneracion+' ')
+            for carrera in carrera_escritor:
+                self.view.show_a_carrera_escritores(carrera)
+                self.view.show_carrera_escritores_midder()
+            self.view.show_carrera_escritores_footer()
+        else:
+            self.view.error(
+                'PROBLEMA AL LEER LOS ESCRITORES. REVISA')
+        return
+
+    def read_carrera_escritores_remuneracion_range(self):
+        self.view.ask('Remuneracion minima: ')
+        rem_min = input()
+        self.view.ask('Remuneracion maxima: ')
+        rem_max = input()
+        carrera_escritor = self.model.read_carrera_escritores_remuneracion_range(
+            rem_min, rem_max)
+        if type(carrera_escritor) == list:
+            self.view.show_carrera_escritores_header(
+                ' Los escritores que su remuneracion esta entre '+rem_min+' y '+rem_max)
+            for carrera in carrera_escritor:
+                self.view.show_a_carrera_escritores(carrera)
+                self.view.show_carrera_escritores_midder()
+            self.view.show_carrera_escritores_footer()
+        else:
+            self.view.error(
+                'PROBLEMA AL LEER LOS ESCRITORES. REVISA')
+        return
+
+    def update_carrera_escritores(self):
+        self.view.ask('ID Escritor: ')
+        id_escritor = input()
+        self.view.ask('ID Pelicula: ')
+        id_pelicula = input()
+        carrera_escritores = self.model.update_carrera_escritores(
+            id_escritor, id_pelicula)
+        if type(carrera_escritores) == tuple:
+            self.view.show_carrera_escritores_header(
+                ' Datos del escritor '+id_escritor+' que participo en la pelicula '+id_pelicula+' ')
+            self.view.show_a_carrera_escritores(carrera_escritores)
+            self.view.show_carrera_escritores_midder()
+            self.view.show_carrera_escritores_footer()
+        else:
+            if carrera_escritores == None:
+                self.view.error('LA PARTICIPACION DEL ESCRITOR NO EXISTE')
+            else:
+                self.view.error('PROBLEMA AL LEER LA PARTICIPACION DEL ESCRITOR. REVISA')
+            return
+        self.view.msg(
+            'Ingresa los valores a modificar (vacio para dejarlo igual):')
+        self.view.ask('Remuneracion: ')
+        whole_vals = input()
+        fields, vals = self.update_list(
+            ['remuneracion'], whole_vals)
+        vals.append(id_escritor, id_pelicula)
+        vals = tuple(vals)
+        out = self.model.update_peliculas(fields, vals)
+        if type(out) == int:
+            self.view.ok(id_escritor+' '+id_pelicula, 'actualizo')
+        else:
+            self.view.error(
+                'NO SE PUDO ACTUALIZAR LA PARTICIPACION DEL ESCRITOR. REVISA')
+        return
+
+    def delete_carrera_escritores(self):
+        self.view.ask('ID Escritor: ')
+        id_escritor = input()
+        self.view.ask('ID Pelicula: ')
+        id_pelicula = input()
+        count = self.model.delete_carrera_escritores(id_escritor, id_pelicula)
+        if count != 0:
+            self.view.ok(id_escritor, 'borro')
+        else:
+            if count == 0:
+                self.view.error('LA PARTICIPACION DEL ESCRITOR NO EXISTE')
+            else:
+                self.view.error(
+                    'PROBLEMA AL BORRAR LA PARTICIPACION DEL ESCRITOR. REVISA')
+        return
+
+    def delete_carrera_escritores_escritor(self):
+        self.view.ask('ID Escritor: ')
+        id_escritor = input()
+        count = self.model.delete_carrera_escritores_escritor(
+            id_escritor)
+        if count != 0:
+            self.view.ok(id_escritor, 'borro')
+        else:
+            if count == 0:
+                self.view.error('EL ESCRITOR NO EXISTE')
+            else:
+                self.view.error(
+                    'PROBLEMA AL BORRAR LA CARRERA DEL ESCRITOR. REVISA')
+        return
+    
+    """
+    **********************************
+    * Controllers for actors career  *
+    **********************************
+    """
+
+    def carrera_actores_menu(self):
+        o = '100'
+        while o != '0':
+            self.view.carrera_actores_menu()
+            self.view.option('10')
+            o = input()
+            if o == '1':
+                self.create_carrera_actores()
+            elif o == '2':
+                self.read_all_carrera_actores()
+            elif o == '3':
+                self.read_a_carrera_actores()
+            elif o == '4':
+                self.read_carrera_actores_actor()
+            elif o == '5':
+                self.read_carrera_actores_pelicula()
+            elif o == '6':
+                self.read_carrera_actores_remuneracion()
+            elif o == '7':
+                self.read_carrera_actores_remuneracion_range()
+            elif o == '8':
+                self.update_carrera_actores()
+            elif o == '9':
+                self.delete_carrera_actores()
+            elif o == '10':
+                self.delete_carrera_actores_actor()
+            elif o == '0':
+                return
+            else:
+                self.view.not_valid_option()
+        return
+
+    def ask_carrera_actores(self):
+        self.view.ask('ID Actor: ')
+        id_actor = input()
+        self.view.ask('ID Pelicula: ')
+        id_pelicula = input()
+        self.view.ask('Remuneracion: ')
+        remuneracion = input()
+        return [id_actor, id_pelicula, remuneracion]
+
+    def create_carrera_actores(self):
+        id_actor, id_pelicula, remuneracion = self.ask_carrera_actores()
+        out = self.model.create_carrera_actores(
+            id_actor, id_pelicula, remuneracion)
+        if type(out) == int:
+            self.view.ok(id_actor+' '+id_pelicula, 'agrego')
+        else:
+            if out.errno == 1062:
+                self.view.error('LA CARRERA DEL ACTOR ESTA REPETIDA')
+            else:
+                self.view.error(
+                    'NO SE PUDO AGREGAR LA CARRERA DEL ACTOR. REVISA')
+        return
+
+    def read_all_carrera_actores(self):
+        carrera_escritores = self.model.read_all_carrera_escritores()
+        if type(carrera_escritores) == list:
+            self.view.show_carrera_escritores_header(
+                ' La carrera completa de todos los escritores ')
+            for carrera_escritor in carrera_escritores:
+                self.view.show_a_carrera_escritores(carrera_escritor)
+                self.view.show_carrera_escritores_midder()
+            self.view.show_carrera_escritores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LAS CARRERAS DE LOS ESCRITORES')
+        return
+
+    def read_a_carrera_actores(self):
+        self.view.ask('ID Actor: ')
+        id_actor = input()
+        self.view.ask('ID Pelicula: ')
+        id_pelicula = input()
+        carrera_actores = self.model.read_a_carrera_actores(
+            id_actor, id_pelicula)
+        if type(carrera_actores) == tuple:
+            self.view.show_carrera_actores_header(
+                ' Datos de la participacion del actor '+id_actor+' en la pelicula '+id_pelicula+' ')
+            self.view.show_a_carrera_actores(carrera_actores)
+            self.view.show_carrera_actores_midder()
+            self.view.show_carrera_actores_footer()
+        else:
+            if carrera_actores == None:
+                self.view.error('LA PARTICIPACION DEL ACTOR NO EXISTE')
+            else:
+                self.view.error(
+                    'PROBLEMA AL LEER LA PARTICIPACION DEL ACTOR. REVISA')
+        return
+
+    def read_carrera_actores_actor(self):
+        self.view.ask('ID actor: ')
+        id_actor = input()
+        carrera_actor = self.model.read_carrera_actores_actor(
+            id_actor)
+        if type(carrera_actor) == list:
+            self.view.show_carrera_actores_header(
+                ' La carrera completa del actor '+id_actor+' ')
+            for carrera in carrera_actor:
+                self.view.show_a_carrera_actores(carrera)
+                self.view.show_carrera_actores_midder()
+            self.view.show_carrera_actores_footer()
+        else:
+            self.view.error('PROBLEMA AL LEER LA CARRERA DEL ACTOR. REVISA')
+        return
+
+    def read_carrera_actores_pelicula(self):
+        self.view.ask('ID Pelicula: ')
+        id_pelicula = input()
+        carrera_actor = self.model.read_carrera_actores_pelicula(
+            id_pelicula)
+        if type(carrera_actor) == list:
+            self.view.show_carrera_actores_header(
+                ' Los actores que participaron en la pelicula '+id_pelicula+' ')
+            for carrera in carrera_actor:
+                self.view.show_a_carrera_actores(carrera)
+                self.view.show_carrera_actores_midder()
+            self.view.show_carrera_actores_footer()
+        else:
+            self.view.error(
+                'PROBLEMA AL LEER LOS ACTORES DE LA PELICULA. REVISA')
+        return
+
+    def read_carrera_actores_remuneracion(self):
+        self.view.ask('Remuneracion: ')
+        remuneracion = input()
+        carrera_actor = self.model.read_carrera_actores_remuneracion(
+            remuneracion)
+        if type(carrera_actor) == list:
+            self.view.show_carrera_actores_header(
+                ' Los actores que tuvieron como remuneracion '+remuneracion+' ')
+            for carrera in carrera_actor:
+                self.view.show_a_carrera_actores(carrera)
+                self.view.show_carrera_actores_midder()
+            self.view.show_carrera_actores_footer()
+        else:
+            self.view.error(
+                'PROBLEMA AL LEER LOS ACTORES. REVISA')
+        return
+
+    def read_carrera_actores_remuneracion_range(self):
+        self.view.ask('Remuneracion minima: ')
+        rem_min = input()
+        self.view.ask('Remuneracion maxima: ')
+        rem_max = input()
+        carrera_actor = self.model.read_carrera_actores_remuneracion_range(
+            rem_min, rem_max)
+        if type(carrera_actor) == list:
+            self.view.show_carrera_actores_header(
+                ' Los actores que su remuneracion esta entre '+rem_min+' y '+rem_max)
+            for carrera in carrera_actor:
+                self.view.show_a_carrera_actores(carrera)
+                self.view.show_carrera_actores_midder()
+            self.view.show_carrera_actores_footer()
+        else:
+            self.view.error(
+                'PROBLEMA AL LEER LOS ACTORES. REVISA')
+        return
+
+    def update_carrera_actores(self):
+        self.view.ask('ID Actor: ')
+        id_actor = input()
+        self.view.ask('ID Pelicula: ')
+        id_pelicula = input()
+        carrera_actores = self.model.update_carrera_actores(
+            id_actor, id_pelicula)
+        if type(carrera_actores) == tuple:
+            self.view.show_carrera_actores_header(
+                ' Datos del actor '+id_actor+' que participo en la pelicula '+id_pelicula+' ')
+            self.view.show_a_carrera_actores(carrera_actores)
+            self.view.show_carrera_actores_midder()
+            self.view.show_carrera_actores_footer()
+        else:
+            if carrera_actores == None:
+                self.view.error('LA PARTICIPACION DEL ACTOR NO EXISTE')
+            else:
+                self.view.error(
+                    'PROBLEMA AL LEER LA PARTICIPACION DEL ACTOR. REVISA')
+            return
+        self.view.msg(
+            'Ingresa los valores a modificar (vacio para dejarlo igual):')
+        self.view.ask('Remuneracion: ')
+        whole_vals = input()
+        fields, vals = self.update_list(
+            ['remuneracion'], whole_vals)
+        vals.append(id_actor, id_pelicula)
+        vals = tuple(vals)
+        out = self.model.update_peliculas(fields, vals)
+        if type(out) == int:
+            self.view.ok(id_actor+' '+id_pelicula, 'actualizo')
+        else:
+            self.view.error(
+                'NO SE PUDO ACTUALIZAR LA PARTICIPACION DEL ACTOR. REVISA')
+        return
+
+    def delete_carrera_actores(self):
+        self.view.ask('ID Actor: ')
+        id_actor = input()
+        self.view.ask('ID Pelicula: ')
+        id_pelicula = input()
+        count = self.model.delete_carrera_actores(id_actor, id_pelicula)
+        if count != 0:
+            self.view.ok(id_actor, 'borro')
+        else:
+            if count == 0:
+                self.view.error('LA PARTICIPACION DEL ACTOR NO EXISTE')
+            else:
+                self.view.error(
+                    'PROBLEMA AL BORRAR LA PARTICIPACION DEL ACTOR. REVISA')
+        return
+
+    def delete_carrera_actores_actor(self):
+        self.view.ask('ID Actor: ')
+        id_actor = input()
+        count = self.model.delete_carrera_actores_actor(
+            id_actor)
+        if count != 0:
+            self.view.ok(id_actor, 'borro')
+        else:
+            if count == 0:
+                self.view.error('EL ACTOR NO EXISTE')
+            else:
+                self.view.error(
+                    'PROBLEMA AL BORRAR LA CARRERA DEL ACTOR. REVISA')
         return
