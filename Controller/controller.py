@@ -533,9 +533,9 @@ class Controller:
         self.view.ask('ID Universidad: ')
         id_alma_mater = input()
         self.view.ask('Año de inicio: ')
-        anio_act_in = input()
+        anio_act_in = int(input())
         self.view.ask('Año fin: ')
-        anio_act_fin = input()
+        anio_act_fin = int(input())
         return [nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin]
 
     def create_directores(self):
@@ -627,7 +627,7 @@ class Controller:
 
     def read_directores_anio_act_in(self):
         self.view.ask('Año de inicio: ')
-        anio_act_in = input()
+        anio_act_in = int(input())
         directores = self.model.read_directores_anio_act_in(anio_act_in)
         if type(directores) == list:
             self.view.show_directores_header(
@@ -642,7 +642,7 @@ class Controller:
 
     def read_directores_anio_act_fin(self):
         self.view.ask('Año fin: ')
-        anio_act_fin = input()
+        anio_act_fin = int(input())
         directores = self.model.read_directores_anio_act_fin(anio_act_fin)
         if type(directores) == list:
             self.view.show_directores_header(
@@ -657,9 +657,9 @@ class Controller:
 
     def read_directores_anio_act_range(self):
         self.view.ask('Año de inicio: ')
-        anio_act_in = input()
+        anio_act_in = int(input())
         self.view.ask('Año fin: ')
-        anio_act_fin = input()
+        anio_act_fin = int(input())
         directores = self.model.read_directores_anio_act_range(anio_act_in, anio_act_fin)
         if type(directores) == list:
             self.view.show_directores_header(
@@ -762,9 +762,9 @@ class Controller:
         self.view.ask('ID Universidad: ')
         id_alma_mater = input()
         self.view.ask('Año de inicio: ')
-        anio_act_in = input()
+        anio_act_in = int(input())
         self.view.ask('Año fin: ')
-        anio_act_fin = input()
+        anio_act_fin = int(input())
         return [nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin]
 
     def create_escritores(self):
@@ -856,7 +856,7 @@ class Controller:
 
     def read_escritores_anio_act_in(self):
         self.view.ask('Año de inicio: ')
-        anio_act_in = input()
+        anio_act_in = int(input())
         escritores = self.model.read_escritores_anio_act_in(anio_act_in)
         if type(escritores) == list:
             self.view.show_escritores_header(
@@ -871,7 +871,7 @@ class Controller:
 
     def read_escritores_anio_act_fin(self):
         self.view.ask('Año fin: ')
-        anio_act_fin = input()
+        anio_act_fin = int(input())
         escritores = self.model.read_escritores_anio_act_fin(anio_act_fin)
         if type(escritores) == list:
             self.view.show_escritores_header(
@@ -886,9 +886,9 @@ class Controller:
 
     def read_escritores_anio_act_range(self):
         self.view.ask('Año de inicio: ')
-        anio_act_in = input()
+        anio_act_in = int(input())
         self.view.ask('Año fin: ')
-        anio_act_fin = input()
+        anio_act_fin = int(input())
         escritores = self.model.read_escritores_anio_act_range(
             anio_act_in, anio_act_fin)
         if type(escritores) == list:
@@ -994,9 +994,9 @@ class Controller:
         self.view.ask('ID Universidad: ')
         id_alma_mater = input()
         self.view.ask('Año de inicio: ')
-        anio_act_in = input()
+        anio_act_in = int(input())
         self.view.ask('Año fin: ')
-        anio_act_fin = input()
+        anio_act_fin = int(input())
         return [nombre, apellido, id_alma_mater, anio_act_in, anio_act_fin]
 
     def create_actores(self):
@@ -1088,7 +1088,7 @@ class Controller:
 
     def read_actores_anio_act_in(self):
         self.view.ask('Año de inicio: ')
-        anio_act_in = input()
+        anio_act_in = int(input())
         actores = self.model.read_actores_anio_act_in(anio_act_in)
         if type(actores) == list:
             self.view.show_actores_header(
@@ -1103,7 +1103,7 @@ class Controller:
 
     def read_actores_anio_act_fin(self):
         self.view.ask('Año fin: ')
-        anio_act_fin = input()
+        anio_act_fin = int(input())
         actores = self.model.read_actores_anio_act_fin(anio_act_fin)
         if type(actores) == list:
             self.view.show_actores_header(
@@ -1118,9 +1118,9 @@ class Controller:
 
     def read_actores_anio_act_range(self):
         self.view.ask('Año de inicio: ')
-        anio_act_in = input()
+        anio_act_in = int(input())
         self.view.ask('Año fin: ')
-        anio_act_fin = input()
+        anio_act_fin = int(input())
         actores = self.model.read_actores_anio_act_range(
             anio_act_in, anio_act_fin)
         if type(actores) == list:
@@ -1231,7 +1231,7 @@ class Controller:
         self.view.ask('ID Pais: ')
         id_pais = input()
         self.view.ask('Calificacion: ')
-        calif = input()
+        calif = int(input())
         return [titulo, id_genero, id_director, anio, id_pais, calif]
 
     def create_peliculas(self):
@@ -1323,7 +1323,7 @@ class Controller:
 
     def read_peliculas_anio(self):
         self.view.ask('Año de lanzamiento: ')
-        anio = input()
+        anio = int(input())
         peliculas = self.model.read_peliculas_anio(anio)
         if type(peliculas) == list:
             self.view.show_peliculas_header(
@@ -1338,9 +1338,9 @@ class Controller:
 
     def read_peliculas_anio_range(self):
         self.view.ask('Desde el año: ')
-        anio_in = input()
+        anio_in = int(input())
         self.view.ask('Hasta el año: ')
-        anio_fin = input()
+        anio_fin = int(input())
         peliculas = self.model.read_peliculas_anio_range(
             anio_in, anio_fin)
         if type(peliculas) == list:
@@ -1371,7 +1371,7 @@ class Controller:
 
     def read_peliculas_calif(self):
         self.view.ask('Calificacion: ')
-        calif = input()
+        calif = int(input())
         peliculas = self.model.read_peliculas_calif(calif)
         if type(peliculas) == list:
             self.view.show_peliculas_header(
@@ -1471,7 +1471,7 @@ class Controller:
         self.view.ask('ID Pelicula: ')
         id_pelicula = input()
         self.view.ask('Remuneracion: ')
-        remuneracion = input()
+        remuneracion = int(input())
         return [id_escritor, id_pelicula, remuneracion]
 
     def create_carrera_escritores(self):
@@ -1553,7 +1553,7 @@ class Controller:
 
     def read_carrera_escritores_remuneracion(self):
         self.view.ask('Remuneracion: ')
-        remuneracion = input()
+        remuneracion = int(input())
         carrera_escritor = self.model.read_carrera_escritores_remuneracion(
             remuneracion)
         if type(carrera_escritor) == list:
@@ -1570,9 +1570,9 @@ class Controller:
 
     def read_carrera_escritores_remuneracion_range(self):
         self.view.ask('Remuneracion minima: ')
-        rem_min = input()
+        rem_min = int(input())
         self.view.ask('Remuneracion maxima: ')
-        rem_max = input()
+        rem_max = int(input())
         carrera_escritor = self.model.read_carrera_escritores_remuneracion_range(
             rem_min, rem_max)
         if type(carrera_escritor) == list:
@@ -1609,7 +1609,7 @@ class Controller:
         self.view.msg(
             'Ingresa los valores a modificar (vacio para dejarlo igual):')
         self.view.ask('Remuneracion: ')
-        whole_vals = input()
+        whole_vals = int(input())
         fields, vals = self.update_list(
             ['remuneracion'], whole_vals)
         vals.append(id_escritor, id_pelicula)
@@ -1697,7 +1697,7 @@ class Controller:
         self.view.ask('ID Pelicula: ')
         id_pelicula = input()
         self.view.ask('Remuneracion: ')
-        remuneracion = input()
+        remuneracion = int(input())
         return [id_actor, id_pelicula, remuneracion]
 
     def create_carrera_actores(self):
@@ -1783,7 +1783,7 @@ class Controller:
 
     def read_carrera_actores_remuneracion(self):
         self.view.ask('Remuneracion: ')
-        remuneracion = input()
+        remuneracion = int(input())
         carrera_actor = self.model.read_carrera_actores_remuneracion(
             remuneracion)
         if type(carrera_actor) == list:
@@ -1800,9 +1800,9 @@ class Controller:
 
     def read_carrera_actores_remuneracion_range(self):
         self.view.ask('Remuneracion minima: ')
-        rem_min = input()
+        rem_min = int(input())
         self.view.ask('Remuneracion maxima: ')
-        rem_max = input()
+        rem_max = int(input())
         carrera_actor = self.model.read_carrera_actores_remuneracion_range(
             rem_min, rem_max)
         if type(carrera_actor) == list:
@@ -1840,7 +1840,7 @@ class Controller:
         self.view.msg(
             'Ingresa los valores a modificar (vacio para dejarlo igual):')
         self.view.ask('Remuneracion: ')
-        whole_vals = input()
+        whole_vals = int(input())
         fields, vals = self.update_list(
             ['remuneracion'], whole_vals)
         vals.append(id_actor, id_pelicula)
