@@ -32,7 +32,7 @@ CREATE TABLE `actores` (
   PRIMARY KEY (`id_actor`),
   KEY `fk_id_alma_mater_actores` (`id_alma_mater`),
   CONSTRAINT `fk_id_alma_mater_actores` FOREIGN KEY (`id_alma_mater`) REFERENCES `alma_mater` (`id_alma_mater`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `actores` (
 
 LOCK TABLES `actores` WRITE;
 /*!40000 ALTER TABLE `actores` DISABLE KEYS */;
-INSERT INTO `actores` VALUES (1,'Chadwick','Boseman',1,2000,2020),(2,'Michael','Jordan',2,1999,2000),(3,'Lupita','Nyong\'o',3,2005,2020),(4,'Charles','Chaplin',NULL,1901,1976),(5,'Paulette','Goddard',NULL,1926,1972),(6,'Henry','Bergman',NULL,1913,1936),(7,'Yalitza','Aparicio',NULL,2018,2020),(8,'Marina','de Tavara',6,1998,2020);
+INSERT INTO `actores` VALUES (1,'Chadwick','Boseman',1,2000,2020),(2,'Michael','Jordan',2,1999,2020),(3,'Lupita','Nyong\'o',3,2005,2020),(4,'Charles','Chaplin',NULL,1901,1976),(5,'Paulette','Goddard',NULL,1926,1972),(6,'Henry','Bergman',NULL,1913,1936),(7,'Yalitza','Aparicio',NULL,2018,2020),(8,'Marina','de Tavara',6,1998,2020),(9,'Robert Jr.','Downey',9,1970,2020),(10,'Chris','Evans',10,1997,2020),(11,'Mark','Ruffalo',12,1989,2020);
 /*!40000 ALTER TABLE `actores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +59,7 @@ CREATE TABLE `alma_mater` (
   PRIMARY KEY (`id_alma_mater`),
   KEY `fk_id_pais` (`id_pais`),
   CONSTRAINT `fk_id_pais` FOREIGN KEY (`id_pais`) REFERENCES `pais` (`id_pais`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +68,7 @@ CREATE TABLE `alma_mater` (
 
 LOCK TABLES `alma_mater` WRITE;
 /*!40000 ALTER TABLE `alma_mater` DISABLE KEYS */;
-INSERT INTO `alma_mater` VALUES (1,'Howard University',1),(2,'Newark Arts High School',1),(3,'Hampshire College',1),(4,'California State University',1),(5,'Universidad Autonoma de Mexico',2),(6,'Centro Formacion Teatral San Cayetano',2);
+INSERT INTO `alma_mater` VALUES (1,'Howard University',1),(2,'Newark Arts High School',1),(3,'Hampshire College',1),(4,'California State University',1),(5,'Universidad Autonoma de Mexico',2),(6,'Centro Formacion Teatral San Cayetano',2),(8,'University of Pennsylvania',1),(9,'Santa Monica High School',1),(10,'Lee Strasberg Theatre and Film Institute',1),(11,'University of Iowa',1),(12,'Stella Alder Studio of Acting',1);
 /*!40000 ALTER TABLE `alma_mater` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +96,7 @@ CREATE TABLE `carrera_actores` (
 
 LOCK TABLES `carrera_actores` WRITE;
 /*!40000 ALTER TABLE `carrera_actores` DISABLE KEYS */;
-INSERT INTO `carrera_actores` VALUES (1,1,1500000),(2,1,2000000),(3,1,1000000),(4,2,100000),(5,2,50000),(6,2,50000),(7,3,100000),(8,3,200000);
+INSERT INTO `carrera_actores` VALUES (1,1,1500000),(2,1,2000000),(3,1,1000000),(4,2,100000),(5,2,50000),(6,2,50000),(7,3,100000),(8,3,200000),(9,4,1200000),(10,4,1200000),(11,4,1200000);
 /*!40000 ALTER TABLE `carrera_actores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,7 +124,7 @@ CREATE TABLE `carrera_escritores` (
 
 LOCK TABLES `carrera_escritores` WRITE;
 /*!40000 ALTER TABLE `carrera_escritores` DISABLE KEYS */;
-INSERT INTO `carrera_escritores` VALUES (1,1,2500000),(2,2,100000),(3,3,1000000);
+INSERT INTO `carrera_escritores` VALUES (1,1,2500000),(2,2,100000),(3,3,1000000),(4,4,2500000),(5,4,2500000);
 /*!40000 ALTER TABLE `carrera_escritores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,7 +145,7 @@ CREATE TABLE `directores` (
   PRIMARY KEY (`id_director`),
   KEY `fk_id_alma_mater_directores` (`id_alma_mater`),
   CONSTRAINT `fk_id_alma_mater_directores` FOREIGN KEY (`id_alma_mater`) REFERENCES `alma_mater` (`id_alma_mater`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +154,7 @@ CREATE TABLE `directores` (
 
 LOCK TABLES `directores` WRITE;
 /*!40000 ALTER TABLE `directores` DISABLE KEYS */;
-INSERT INTO `directores` VALUES (1,'Ryan','Coogler',4,2009,2020),(2,'Charles','Chaplin',NULL,1901,1976),(3,'Alfonso','Cuaron',5,1981,2020);
+INSERT INTO `directores` VALUES (1,'Ryan','Coogler',4,2009,2020),(2,'Charles','Chaplin',NULL,1901,1976),(3,'Alfonso','Cuaron',5,1981,2020),(5,'Juan','Perez',5,1980,2020),(6,'Anthony','Russo',8,1994,2020);
 /*!40000 ALTER TABLE `directores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,7 +175,7 @@ CREATE TABLE `escritores` (
   PRIMARY KEY (`id_escritor`),
   KEY `fk_id_alma_mater_escrirotes` (`id_alma_mater`),
   CONSTRAINT `fk_id_alma_mater_escrirotes` FOREIGN KEY (`id_alma_mater`) REFERENCES `alma_mater` (`id_alma_mater`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +184,7 @@ CREATE TABLE `escritores` (
 
 LOCK TABLES `escritores` WRITE;
 /*!40000 ALTER TABLE `escritores` DISABLE KEYS */;
-INSERT INTO `escritores` VALUES (1,'Ryan','Coogler',4,2009,2020),(2,'Charles','Chaplin',NULL,1901,1976),(3,'Alfonso','Cuaron',5,1981,2020);
+INSERT INTO `escritores` VALUES (1,'Ryan','Coogler',4,2009,2020),(2,'Charles','Chaplin',NULL,1901,1976),(3,'Alfonso','Cuaron',5,1981,2020),(4,'Joseph','Russo',11,1994,2020),(5,'Anthony','Russo',8,1994,2020);
 /*!40000 ALTER TABLE `escritores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,7 +200,7 @@ CREATE TABLE `genero` (
   `nombre` varchar(30) NOT NULL,
   `sub_gen` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id_genero`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,7 +224,7 @@ CREATE TABLE `pais` (
   `id_pais` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(30) NOT NULL,
   PRIMARY KEY (`id_pais`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +233,7 @@ CREATE TABLE `pais` (
 
 LOCK TABLES `pais` WRITE;
 /*!40000 ALTER TABLE `pais` DISABLE KEYS */;
-INSERT INTO `pais` VALUES (1,'Estados Unidos de America'),(2,'Mexico');
+INSERT INTO `pais` VALUES (1,'Estados Unidos de America'),(2,'Mexico lindo'),(3,'Canada'),(5,'Guatemala');
 /*!40000 ALTER TABLE `pais` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,7 +259,7 @@ CREATE TABLE `peliculas` (
   CONSTRAINT `fk_id_director` FOREIGN KEY (`id_director`) REFERENCES `directores` (`id_director`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_id_genero` FOREIGN KEY (`id_genero`) REFERENCES `genero` (`id_genero`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_id_pais_peliculas` FOREIGN KEY (`id_pais`) REFERENCES `pais` (`id_pais`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,7 +268,7 @@ CREATE TABLE `peliculas` (
 
 LOCK TABLES `peliculas` WRITE;
 /*!40000 ALTER TABLE `peliculas` DISABLE KEYS */;
-INSERT INTO `peliculas` VALUES (1,'Black panther',1,1,2018,1,97),(2,'Modern times',5,2,1936,1,100),(3,'Roma',6,3,2018,2,95);
+INSERT INTO `peliculas` VALUES (1,'Black panther',1,1,2018,1,97),(2,'Modern times',5,2,1936,1,100),(3,'Roma',6,3,2018,2,95),(4,'Advengers Endgame',1,6,2019,1,93);
 /*!40000 ALTER TABLE `peliculas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -281,4 +281,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-29 17:49:10
+-- Dump completed on 2020-05-15 13:56:56
