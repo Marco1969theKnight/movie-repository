@@ -931,6 +931,7 @@ class Controller:
         vals.append(id_escritor)
         vals = tuple(vals)
         out = self.model.update_escritores(fields, vals)
+        print(out)
         if out == True:
             self.view.ok(id_escritor, 'actualizo')
         else:
@@ -1489,7 +1490,7 @@ class Controller:
         id_escritor, id_pelicula, remuneracion = self.ask_carrera_escritores()
         out = self.model.create_carrera_escritores(
             id_escritor, id_pelicula, remuneracion)
-        if type(out) == int:
+        if out == True:
             self.view.ok(id_escritor+' '+id_pelicula, 'agrego')
         else:
             if out.errno == 1062:
@@ -1636,9 +1637,10 @@ class Controller:
             whole_vals = [whole_vals]
             fields, vals = self.update_list(
                 ['remuneracion'], whole_vals)
-            vals.append(id_escritor, id_pelicula)
+            vals.append(id_escritor)
+            vals.append(id_pelicula)
             vals = tuple(vals)
-            out = self.model.update_peliculas(fields, vals)
+            out = self.model.update_carrera_escritores(fields, vals)
             if out == True:
                 self.view.ok(id_escritor+' '+id_pelicula, 'actualizo')
             else:
@@ -1747,7 +1749,7 @@ class Controller:
         id_actor, id_pelicula, remuneracion = self.ask_carrera_actores()
         out = self.model.create_carrera_actores(
             id_actor, id_pelicula, remuneracion)
-        if type(out) == int:
+        if out == True:
             self.view.ok(id_actor+' '+id_pelicula, 'agrego')
         else:
             if out.errno == 1062:
@@ -1758,14 +1760,14 @@ class Controller:
         return
 
     def read_all_carrera_actores(self):
-        carrera_escritores = self.model.read_all_carrera_escritores()
-        if type(carrera_escritores) == list:
-            self.view.show_carrera_escritores_header(
-                ' La carrera completa de todos los escritores ')
-            for carrera_escritor in carrera_escritores:
-                self.view.show_a_carrera_escritores(carrera_escritor)
-                self.view.show_carrera_escritores_midder()
-            self.view.show_carrera_escritores_footer()
+        carrera_actores = self.model.read_all_carrera_actores()
+        if type(carrera_actores) == list:
+            self.view.show_carrera_actores_header(
+                ' La carrera completa de todos los actores ')
+            for carrera_actor in carrera_actores:
+                self.view.show_a_carrera_actores(carrera_actor)
+                self.view.show_carrera_actores_midder()
+            self.view.show_carrera_actores_footer()
         else:
             self.view.error('PROBLEMA AL LEER LAS CARRERAS DE LOS ESCRITORES')
         return
@@ -1898,9 +1900,10 @@ class Controller:
             whole_vals = [whole_vals]
             fields, vals = self.update_list(
                 ['remuneracion'], whole_vals)
-            vals.append(id_actor, id_pelicula)
+            vals.append(id_actor)
+            vals.append(id_pelicula)
             vals = tuple(vals)
-            out = self.model.update_peliculas(fields, vals)
+            out = self.model.update_carrera_actores(fields, vals)
             if out == True:
                 self.view.ok(id_actor+' '+id_pelicula, 'actualizo')
             else:

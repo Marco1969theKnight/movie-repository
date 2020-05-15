@@ -484,7 +484,7 @@ class Model:
     def update_escritores(self, fields, vals):
         try:
             sql = 'UPDATE escritores SET ' + \
-                ','.join(fields)+' WHERE id_escritor'
+                ','.join(fields)+' WHERE id_escritor = %s'
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
@@ -906,7 +906,7 @@ class Model:
             sql = 'SELECT carrera_actores.id_actor, actores.nombre, actores.apellido, carrera_actores.id_pelicula, peliculas.titulo, carrera_actores.remuneracion FROM carrera_actores JOIN actores ON carrera_actores.id_actor = actores.id_actor JOIN peliculas ON carrera_actores.id_pelicula = peliculas.id_pelicula AND carrera_actores.id_actor = %s'
             vals = (actor,)
             self.cursor.execute(sql, vals)
-            record = self.cursor.fetchone()
+            record = self.cursor.fetchall()
             return record
         except connector.Error as err:
             return err
@@ -954,7 +954,7 @@ class Model:
     def update_carrera_actores(self, fields, vals):
         try:
             sql = 'UPDATE carrera_actores SET ' + \
-                ','.join(fields)+' WHERE id_escritor = %s AND id_pelicula = %s'
+                ','.join(fields)+' WHERE id_actor = %s AND id_pelicula = %s'
             self.cursor.execute(sql, vals)
             self.cnx.commit()
             return True
