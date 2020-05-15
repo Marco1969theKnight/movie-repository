@@ -782,7 +782,7 @@ class Model:
 
     def read_a_carrera_escritores(self, escritor, pelicula):
         try:
-            sql = 'SELECT carrera_escritores.id_escritor, escritores.nombre, escritores.apellido, carrera_escritores.id_pelicula, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.id_escritor = %s carrera_escritores.id_pelicula = %s'
+            sql = 'SELECT carrera_escritores.id_escritor, escritores.nombre, escritores.apellido, carrera_escritores.id_pelicula, peliculas.titulo, carrera_escritores.remuneracion FROM carrera_escritores JOIN escritores ON carrera_escritores.id_escritor = escritores.id_escritor JOIN peliculas ON carrera_escritores.id_pelicula = peliculas.id_pelicula AND carrera_escritores.id_escritor = %s AND carrera_escritores.id_pelicula = %s'
             vals = (escritor, pelicula)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
