@@ -165,11 +165,13 @@ class Controller:
             'Ingresa los valores a modificar (vacio para dejarlo igual):')
         self.view.ask('Nombre: ')
         nombre = input()
+        nombre = [nombre]
+        print(nombre)
         fields, vals = self.update_list(['nombre'], nombre)
         vals.append(id_pais)
         vals = tuple(vals)
         out = self.model.update_pais(fields, vals)
-        if type(out) == int:
+        if out == True:
             self.view.ok(id_pais, 'actualizo')
         else:
             self.view.error('NO SE PUDO ACTUALIZAR EL PAIS. REVISA')
@@ -316,7 +318,7 @@ class Controller:
         vals.append(id_genero)
         vals = tuple(vals)
         out = self.model.update_genero(fields, vals)
-        if type(out) == int:
+        if out == True:
             self.view.ok(id_genero, 'actualizo')
         else:
             self.view.error('NO SE PUDO ACTUALIZAR EL GENERO. REVISA')
@@ -370,7 +372,7 @@ class Controller:
     def ask_alma_mater(self):
         self.view.ask('Nombre: ')
         nombre = input()
-        self.view.ask('ID Pais')
+        self.view.ask('ID Pais: ')
         id_pais = input()
         return [nombre, id_pais]
 
@@ -464,7 +466,7 @@ class Controller:
         vals.append(id_alma_mater)
         vals = tuple(vals)
         out = self.model.update_alma_mater(fields, vals)
-        if type(out) == int:
+        if out == True:
             self.view.ok(id_alma_mater, 'actualizo')
         else:
             self.view.error('NO SE PUDO ACTUALIZAR LA UNIVERSIDAD. REVISA')
@@ -531,6 +533,8 @@ class Controller:
         apellido = input()
         self.view.ask('ID Universidad: ')
         id_alma_mater = input()
+        if id_alma_mater == 'None':
+            id_alma_mater = None
         self.view.ask('Año de inicio: ')
         anio_act_in = input()
         self.view.ask('Año fin: ')
@@ -694,7 +698,7 @@ class Controller:
         vals.append(id_director)
         vals = tuple(vals)
         out = self.model.update_directores(fields, vals)
-        if type(out) == int:
+        if out == True:
             self.view.ok(id_director, 'actualizo')
         else:
             self.view.error('NO SE PUDO ACTUALIZAR EL DIRECTOR. REVISA')
@@ -760,6 +764,8 @@ class Controller:
         apellido = input()
         self.view.ask('ID Universidad: ')
         id_alma_mater = input()
+        if id_alma_mater == 'None':
+            id_alma_mater = None
         self.view.ask('Año de inicio: ')
         anio_act_in = input()
         self.view.ask('Año fin: ')
@@ -992,6 +998,8 @@ class Controller:
         apellido = input()
         self.view.ask('ID Universidad: ')
         id_alma_mater = input()
+        if id_alma_mater == 'None':
+            id_alma_mater = None
         self.view.ask('Año de inicio: ')
         anio_act_in = input()
         self.view.ask('Año fin: ')
@@ -1157,7 +1165,7 @@ class Controller:
         vals.append(id_actor)
         vals = tuple(vals)
         out = self.model.update_actores(fields, vals)
-        if type(out) == int:
+        if out == True:
             self.view.ok(id_actor, 'actualizo')
         else:
             self.view.error('NO SE PUDO ACTUALIZAR AL ACTOR. REVISA')
@@ -1229,6 +1237,8 @@ class Controller:
         anio = input()
         self.view.ask('ID Pais: ')
         id_pais = input()
+        if id_pais == 'None':
+            id_pais = None
         self.view.ask('Calificacion: ')
         calif = input()
         return [titulo, id_genero, id_director, anio, id_pais, calif]
@@ -1407,7 +1417,7 @@ class Controller:
         vals.append(id_pelicula)
         vals = tuple(vals)
         out = self.model.update_peliculas(fields, vals)
-        if type(out) == int:
+        if out == True:
             self.view.ok(id_pelicula, 'actualizo')
         else:
             self.view.error('NO SE PUDO ACTUALIZAR LA PELICULA. REVISA')
@@ -1471,6 +1481,8 @@ class Controller:
         id_pelicula = input()
         self.view.ask('Remuneracion: ')
         remuneracion = input()
+        if remuneracion == 'None':
+            remuneracion = None
         return [id_escritor, id_pelicula, remuneracion]
 
     def create_carrera_escritores(self):
@@ -1618,13 +1630,16 @@ class Controller:
             self.view.msg(
                 'Ingresa los valores a modificar (vacio para dejarlo igual):')
             self.view.ask('Remuneracion: ')
-            whole_vals = int(input())
+            whole_vals = input()
+            if whole_vals == 'None':
+                whole_vals = None
+            whole_vals = [whole_vals]
             fields, vals = self.update_list(
                 ['remuneracion'], whole_vals)
             vals.append(id_escritor, id_pelicula)
             vals = tuple(vals)
             out = self.model.update_peliculas(fields, vals)
-            if type(out) == int:
+            if out == True:
                 self.view.ok(id_escritor+' '+id_pelicula, 'actualizo')
             else:
                 self.view.error(
@@ -1724,6 +1739,8 @@ class Controller:
         id_pelicula = input()
         self.view.ask('Remuneracion: ')
         remuneracion = input()
+        if remuneracion == 'None':
+            remuneracion = None
         return [id_actor, id_pelicula, remuneracion]
 
     def create_carrera_actores(self):
@@ -1875,13 +1892,16 @@ class Controller:
             self.view.msg(
                 'Ingresa los valores a modificar (vacio para dejarlo igual):')
             self.view.ask('Remuneracion: ')
-            whole_vals = int(input())
+            whole_vals = input()
+            if whole_vals == 'None':
+                whole_vals = None
+            whole_vals = [whole_vals]
             fields, vals = self.update_list(
                 ['remuneracion'], whole_vals)
             vals.append(id_actor, id_pelicula)
             vals = tuple(vals)
             out = self.model.update_peliculas(fields, vals)
-            if type(out) == int:
+            if out == True:
                 self.view.ok(id_actor+' '+id_pelicula, 'actualizo')
             else:
                 self.view.error(

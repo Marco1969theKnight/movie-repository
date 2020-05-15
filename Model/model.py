@@ -649,7 +649,7 @@ class Model:
 
     def read_a_peliculas(self, id_pelicula):
         try:
-            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.id_pelicula = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.anio, pais.nombre, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.id_pelicula = %s'
             vals = (id_pelicula,)
             self.cursor.execute(sql, vals)
             record = self.cursor.fetchone()
@@ -659,7 +659,7 @@ class Model:
 
     def read_peliculas_id_genero(self, genero):
         try:
-            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.id_genero = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.anio, pais.nombre, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.id_genero = %s'
             vals = (genero,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -669,7 +669,7 @@ class Model:
 
     def read_peliculas_titulo(self, titulo):
         try:
-            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.titulo = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.anio, pais.nombre, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.titulo = %s'
             vals = (titulo,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -679,7 +679,7 @@ class Model:
 
     def read_peliculas_id_director(self, director):
         try:
-            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.id_director = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.anio, pais.nombre, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.id_director = %s'
             vals = (director,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -689,7 +689,7 @@ class Model:
     
     def read_peliculas_anio(self, anio):
         try:
-            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.anio = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.anio, pais.nombre, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.anio = %s'
             vals = (anio,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -699,7 +699,7 @@ class Model:
 
     def read_peliculas_anio_range(self, anio_ini, anio_end):
         try:
-            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.anio >= %s AND peliculas.anio <= %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.anio, pais.nombre, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.anio >= %s AND peliculas.anio <= %s'
             vals = (anio_ini, anio_end)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -710,10 +710,10 @@ class Model:
     def read_peliculas_id_pais(self, pais):
         try:
             if pais == None:
-                sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.id_pais, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director AND peliculas.id_pais IS NULL'
+                sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.anio, peliculas.id_pais, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director AND peliculas.id_pais IS NULL'
                 self.cursor.execute(sql)
             else:
-                sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.id_pais = %s'
+                sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.anio, pais.nombre, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.id_pais = %s'
                 vals = (pais,)
                 self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -723,7 +723,7 @@ class Model:
 
     def read_peliculas_calif(self, calif):
         try:
-            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.calif = %s'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.anio, pais.nombre, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais WHERE peliculas.calif = %s'
             vals = (calif,)
             self.cursor.execute(sql, vals)
             records = self.cursor.fetchall()
@@ -733,7 +733,7 @@ class Model:
 
     def read_all_peliculas(self):    # Caution if large ammount of data
         try:
-            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, pais.nombre, peliculas.anio, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais'
+            sql = 'SELECT peliculas.id_pelicula, peliculas.titulo, genero.nombre, directores.nombre, directores.apellido, peliculas.anio, pais.nombre, peliculas.calif FROM peliculas JOIN genero ON peliculas.id_genero = genero.id_genero JOIN directores ON peliculas.id_director = directores.id_director LEFT JOIN pais ON peliculas.id_pais = pais.id_pais'
             self.cursor.execute(sql)
             records = self.cursor.fetchall()
             return records
